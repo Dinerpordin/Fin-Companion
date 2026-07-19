@@ -1,0 +1,47 @@
+[
+  {
+    "id": "00000000-0000-0000-0000-000000000301",
+    "institution_id": "00000000-0000-0000-0000-000000000003",
+    "location_type": "branch",
+    "branch_name": "Gulshan Branch",
+    "district": "Dhaka",
+    "upazila": "Gulshan",
+    "address_text": "House 12, Road 90, Gulshan 2, Dhaka",
+    "latitude": 23.7925,
+    "longitude": 90.4078,
+    "products_supported": ["fd", "dps", "savings", "personal_loan", "credit_card"],
+    "phone_public": "02-222283000",
+    "verified_at": "2026-05-30T00:00:00Z",
+    "source_url": "https://www.bracbank.com"
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000302",
+    "institution_id": "00000000-0000-0000-0000-000000000001",
+    "location_type": "branch",
+    "branch_name": "Motijheel Corporate Branch",
+    "district": "Dhaka",
+    "upazila": "Motijheel",
+    "address_text": "Sonali Bank Bhaban, Motijheel C/A, Dhaka",
+    "latitude": 23.7315,
+    "longitude": 90.4150,
+    "products_supported": ["savings", "fd", "personal_loan"],
+    "phone_public": "02-9550424",
+    "verified_at": "2026-05-30T00:00:00Z",
+    "source_url": "https://www.sonalibank.com.bd"
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000303",
+    "institution_id": "00000000-0000-0000-0000-000000000002",
+    "location_type": "branch",
+    "branch_name": "Dhanmondi Branch",
+    "district": "Dhaka",
+    "upazila": "Dhanmondi",
+    "address_text": "House 45, Road 2, Dhanmondi, Dhaka",
+    "latitude": 23.7461,
+    "longitude": 90.3742,
+    "products_supported": ["savings", "fd", "dps"],
+    "phone_public": "02-58610052",
+    "verified_at": "2026-05-30T00:00:00Z",
+    "source_url": "https://www.islamibankbd.com"
+  }
+]

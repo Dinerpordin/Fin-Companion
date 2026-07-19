@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+sqlalchemy[asyncio]
+asyncpg
+alembic
+pydantic
+pydantic-settings
+redis[hiredis]
+google-generativeai
+python-dotenv
+httpx
+structlog
+prometheus-fastapi-instrumentator

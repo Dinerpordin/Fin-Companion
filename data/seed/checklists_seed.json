@@ -1,0 +1,62 @@
+[
+  {
+    "id": "00000000-0000-0000-0000-000000000401",
+    "institution_id": "00000000-0000-0000-0000-000000000003",
+    "product_category": "personal_loan",
+    "checklist_bn": [
+      "জাতীয় পরিচয়পত্র (NID) এর ফটোকপি",
+      "পাসপোর্ট সাইজ ছবি (২ কপি)",
+      "ইউটিলিটি বিলের কপি (বিদ্যুৎ/গ্যাস/পানি)",
+      "বেতন বিবরণী / বেতন সার্টিফিকেট (চাকরিজীবীদের জন্য)",
+      "ব্যাংক স্টেটমেন্ট (বিগত ৬ মাসের)",
+      "টিন (TIN) সার্টিফিকেট ও সর্বশেষ কর রিটার্ন জমার রসিদ"
+    ],
+    "checklist_en": [
+      "Copy of National ID Card (NID)",
+      "Passport size photograph (2 copies)",
+      "Copy of utility bill (Electricity/Gas/Water)",
+      "Salary certificate / payslip (for salaried individuals)",
+      "Bank statement (last 6 months)",
+      "TIN certificate & latest tax return slip"
+    ],
+    "verified_at": "2026-05-30T00:00:00Z"
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000402",
+    "institution_id": "00000000-0000-0000-0000-000000000003",
+    "product_category": "fd",
+    "checklist_bn": [
+      "জাতীয় পরিচয়পত্র (NID) এর ফটোকপি",
+      "আবেদনকারীর পাসপোর্ট সাইজ ছবি (২ কপি)",
+      "মনোনীত ব্যক্তির (Nominee) পাসপোর্ট সাইজ ছবি ও জাতীয় পরিচয়পত্র",
+      "উৎসের প্রমাণ (আমানতের টাকার উৎসের স্বপক্ষে প্রমাণ)",
+      "প্রাথমিক জমার টাকা"
+    ],
+    "checklist_en": [
+      "Copy of National ID Card (NID)",
+      "Applicant's passport size photo (2 copies)",
+      "Nominee's passport size photo & National ID copy",
+      "Proof of source of funds",
+      "Initial deposit amount"
+    ],
+    "verified_at": "2026-05-30T00:00:00Z"
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000403",
+    "institution_id": "00000000-0000-0000-0000-000000000002",
+    "product_category": "savings",
+    "checklist_bn": [
+      "জাতীয় পরিচয়পত্র (NID) এর ফটোকপি",
+      "পাসপোর্ট সাইজ ছবি (২ কপি)",
+      "মনোনীত ব্যক্তির (Nominee) ছবি ও পরিচয়পত্র",
+      "ইউটিলিটি বিলের কপি (ঠিকানা যাচাইয়ের জন্য)"
+    ],
+    "checklist_en": [
+      "Copy of National ID Card (NID)",
+      "Passport size photo (2 copies)",
+      "Nominee's photo & ID card copy",
+      "Copy of utility bill (for address verification)"
+    ],
+    "verified_at": "2026-05-30T00:00:00Z"
+  }
+]

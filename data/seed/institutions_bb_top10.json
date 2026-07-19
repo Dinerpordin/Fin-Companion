@@ -1,0 +1,35 @@
+[
+  {
+    "id": "00000000-0000-0000-0000-000000000001",
+    "name_en": "Sonali Bank",
+    "name_bn": "সোনালী ব্যাংক",
+    "institution_type": "bank",
+    "regulator": "Bangladesh Bank",
+    "website_url": "https://www.sonalibank.com.bd",
+    "phone_public": "16639",
+    "is_islamic": false,
+    "last_verified_at": "2026-05-30T00:00:00Z"
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000002",
+    "name_en": "Islami Bank Bangladesh",
+    "name_bn": "ইসলামী ব্যাংক বাংলাদেশ",
+    "institution_type": "bank",
+    "regulator": "Bangladesh Bank",
+    "website_url": "https://www.islamibankbd.com",
+    "phone_public": "16259",
+    "is_islamic": true,
+    "last_verified_at": "2026-05-30T00:00:00Z"
+  },
+  {
+    "id": "00000000-0000-0000-0000-000000000003",
+    "name_en": "BRAC Bank",
+    "name_bn": "ব্র্যাক ব্যাংক",
+    "institution_type": "bank",
+    "regulator": "Bangladesh Bank",
+    "website_url": "https://www.bracbank.com",
+    "phone_public": "16221",
+    "is_islamic": false,
+    "last_verified_at": "2026-05-30T00:00:00Z"
+  }
+]

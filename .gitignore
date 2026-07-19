@@ -1,0 +1,68 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+dist/
+.venv/
+venv/
+env/
+
+# Build outputs
+.next/
+out/
+build/
+*.tsbuildinfo
+
+# Environment — NEVER commit real secrets
+.env
+.env.local
+.env.*.local
+*.env
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Turbo
+.turbo/
+
+# Testing
+coverage/
+.pytest_cache/
+htmlcov/
+
+# Logs
+*.log
+logs/
+
+# Supabase local
+supabase/.branches/
+supabase/.temp/
+
+# SQLite local databases (test/dev only, never commit)
+*.db
+*.sqlite
+*.sqlite3
+
+# Scrapy local output and cache
+.scrapy/
+scrapers/scratch/
+scrapers/output/
+
+# Python virtual environments (already covered above, explicit for clarity)
+apps/api/.venv/
+
+# pnpm lock — keep; pip-generated lock files sometimes huge
+pip-wheel-metadata/

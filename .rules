@@ -1,0 +1,104 @@
+# Cursor Rules for Bangladesh Financial Companion Platform
+
+## Role
+
+You are building a Bangla-first, privacy-first, mobile-first financial information platform for Bangladesh. The platform is impartial and must never provide personalised financial advice.
+
+## Product truths
+
+- Target market: Bangladesh.
+- Primary users include non-privileged, rural, semi-urban, low-literacy, and first-time financial users.
+- Phase 1 is an information and comparison platform, not a licensed lender or advisor.
+- Existing core capabilities already assumed: comparison foundation, financial health assessment, accounting tool, and loan calculation engine.
+- New major capability to build: AI Financial Companion with text and voice.
+
+## Non-negotiable rules
+
+1. Do not build features that require login in Phase 1 unless explicitly requested.
+2. Do not store raw loan, income, savings, or health inputs server-side in Phase 1.
+3. Do not produce personalised financial advice in UI copy, prompts, model instructions, or response templates.
+4. Do not invent financial product data, rates, fees, or nearest locations.
+5. Always show source metadata and last-verified date where product data is displayed.
+6. Always prefer deterministic business logic for calculations over LLM-generated numbers.
+7. Use Bangla-first UX and plain-language labels.
+8. Optimize for low-end Android and weak connections.
+9. Keep sensitive tools ad-free.
+10. Keep the app runnable after every task.
+
+## Engineering rules
+
+- Use a monorepo structure.
+- Prefer small, isolated commits and thin vertical slices.
+- Build API contracts before wiring UI.
+- Use shared TypeScript types or generated schemas where possible.
+- Add loading, empty, and error states for every user-facing feature.
+- Add tests for calculators, parsers, ranking, and guardrails.
+- Do not do broad refactors unless required to unblock the current slice.
+- Do not replace working code without proving backward compatibility.
+
+## Architecture rules
+
+- Frontend: Next.js PWA.
+- Backend: FastAPI.
+- Database: PostgreSQL.
+- Cache/session: Redis.
+- Search: Elasticsearch or equivalent.
+- Scraping: Scrapy + Playwright.
+- Scheduling: Airflow.
+- Client-side sensitive calculations wherever specified.
+- LLM only orchestrates and explains; it must not be the source of truth for numbers or product facts.
+
+## Assistant rules
+
+- Supported intents: loan assessment, product comparison, nearest provider, health snapshot, how-to-apply, what-if, accounting help, financial education.
+- Every assistant response must include a non-advisory disclaimer.
+- If user asks for the best option "for me", reframe into comparison and filters.
+- Use retrieval from verified product records for all product facts.
+- Use deterministic calculator outputs for all cost figures.
+- Ask clarifying questions when required fields are missing.
+- Confirm improbable values before calculation.
+
+## Privacy and compliance rules
+
+- Treat user financial data as sensitive.
+- Log only anonymised, binned analytics in Phase 1.
+- Never log full conversation contents unless explicitly approved in a future phase.
+- For any server-side document generation, auto-delete personal files within 2 hours.
+- Avoid collecting NID, bank account numbers, or unnecessary personal identifiers.
+- Write code and copy as an impartial information service, not an advisor or lender.
+
+## UI rules
+
+- Bangla default, English optional.
+- Show BDT amounts and time before rates or technical ratios.
+- Use large tap targets and low-clutter layouts.
+- Voice input must include transcript review before submit.
+- Always provide a clear next action: compare, nearest, documents, or scenario.
+
+## Delivery rules
+
+When implementing tasks:
+1. Restate the feature in one sentence.
+2. Identify impacted files.
+3. Implement the smallest working slice.
+4. Add or update tests.
+5. Summarize what changed, risks, and next step.
+
+## Preferred working order
+
+1. shared schemas and DB models
+2. comparison APIs
+3. loan calculator integration
+4. chat assistant MVP
+5. locator
+6. document checklists
+7. voice layer
+8. polish and performance
+
+## Never do these
+
+- Never hardcode fake bank data in production paths.
+- Never output "best for you" or similar advisory language.
+- Never save raw financial form contents to logs.
+- Never hide sponsorship or ranking logic.
+- Never ship without source attribution on product displays.

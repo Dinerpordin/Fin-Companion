@@ -1,0 +1,11 @@
+{
+  "name": "@fc/api",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "python -m uvicorn main:app --reload --host 0.0.0.0 --port 8000",
+    "start": "python -m uvicorn main:app --host 0.0.0.0 --port 8000",
+    "lint": "echo 'Use ruff for Python linting'",
+    "typecheck": "echo 'Use mypy for Python type checking'"
+  }
+}

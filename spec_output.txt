@@ -1,0 +1,173 @@
+--- MATCH found at 33 ---
+Feature 6 — Health Snapshot Shortcut
+A 3–5 question conversational flow (income band, main expenses, any loans, savings) that routes to the Financial Health Assessment tool and returns the cash-flow signal, debt pressure signal, and savings potential in plain Bangla. All calculations remain client-side.
+Feature 7 — What-If Scenario Prompting
+AFC accepts natural language scenario questions and passes them to the What-If Planner. "Jodi ami mash-e 1,000 taka beshi dao?" ("What if I pay 1,000 more per month?") becomes a structured planner input, and the BDT/time output returns to the conversation.
+Feature 8 — IVR/USSD-Lite Fallback (Phase 1C)
+Constrained menu-driven flow accessible via basic phone IVR or USSD: loan cost checker (5 inputs via keypad), nearest MFI by district code, best current FD rate. Delivered as recorded Bangla audio (IVR) or text menus (USSD). Directly addresses Tier 3 users, consistent with the roadmap item already in the implementation plan.[^17]
+Feature 9 — WhatsApp Channel (Phase 2A)
+Extend the AFC engine to WhatsApp Business API. With 213M Facebook users in Bangladesh, WhatsApp is the highest-reach distribution channel. The AFC backend can be delivered through the same FastAPI endpoints with a WhatsApp webhook adapter.[18][19]
+Feature 10 — Escalation and Disclaimer Layer
+Every response includes a visible, context-appropriate disclaimer ("এটি তথ্য মাত্র, আর্থিক পরামর্শ নয়" — "This is information only, not financial advice"). Questions that drift towards personalised advice are redirected to the relevant tool with an explanation. Guardrails block outputs containing specific product recommendations dressed as advice, unverified rate claims, or PII processing outside session scope.[20][21]
+4. Compliance and Non-Advisory Guardrails
+4.1 Regulatory Position
+In Phase 1, the platform operates as an information portal and requires no Bangladesh Bank licence. The AFC must remain within this boundary. The key constraints are:[^5]
+Personal Data Protection Ordinance 2025 (PDPO 2025): Requires explicit, specific, and revocable consent before processing personal data. Financial data is classified as sensitive. The AFC must never persist raw financial inputs from conversational flows to server storage. All loan calculations must remain client-side or in-session only, consistent with the existing privacy architecture.[22][23][^16]
+Cyber Security Act 2023: Section 26 prohibits collecting identity information without lawful authority. AFC must not prompt for NID, phone number, or other identity data in Phase 1.[^5]
+Information Only Rule: The AFC must not say "you should take this loan" or "this product is best for you." It can say "compared to your current loan, this product has an estimated lower monthly repayment of X taka based on published rates."
+4.2 Technical Guardrails
+--------------------------
+--- MATCH found at 34 ---
+Feature 7 — What-If Scenario Prompting
+AFC accepts natural language scenario questions and passes them to the What-If Planner. "Jodi ami mash-e 1,000 taka beshi dao?" ("What if I pay 1,000 more per month?") becomes a structured planner input, and the BDT/time output returns to the conversation.
+Feature 8 — IVR/USSD-Lite Fallback (Phase 1C)
+Constrained menu-driven flow accessible via basic phone IVR or USSD: loan cost checker (5 inputs via keypad), nearest MFI by district code, best current FD rate. Delivered as recorded Bangla audio (IVR) or text menus (USSD). Directly addresses Tier 3 users, consistent with the roadmap item already in the implementation plan.[^17]
+Feature 9 — WhatsApp Channel (Phase 2A)
+Extend the AFC engine to WhatsApp Business API. With 213M Facebook users in Bangladesh, WhatsApp is the highest-reach distribution channel. The AFC backend can be delivered through the same FastAPI endpoints with a WhatsApp webhook adapter.[18][19]
+Feature 10 — Escalation and Disclaimer Layer
+Every response includes a visible, context-appropriate disclaimer ("এটি তথ্য মাত্র, আর্থিক পরামর্শ নয়" — "This is information only, not financial advice"). Questions that drift towards personalised advice are redirected to the relevant tool with an explanation. Guardrails block outputs containing specific product recommendations dressed as advice, unverified rate claims, or PII processing outside session scope.[20][21]
+4. Compliance and Non-Advisory Guardrails
+4.1 Regulatory Position
+In Phase 1, the platform operates as an information portal and requires no Bangladesh Bank licence. The AFC must remain within this boundary. The key constraints are:[^5]
+Personal Data Protection Ordinance 2025 (PDPO 2025): Requires explicit, specific, and revocable consent before processing personal data. Financial data is classified as sensitive. The AFC must never persist raw financial inputs from conversational flows to server storage. All loan calculations must remain client-side or in-session only, consistent with the existing privacy architecture.[22][23][^16]
+Cyber Security Act 2023: Section 26 prohibits collecting identity information without lawful authority. AFC must not prompt for NID, phone number, or other identity data in Phase 1.[^5]
+Information Only Rule: The AFC must not say "you should take this loan" or "this product is best for you." It can say "compared to your current loan, this product has an estimated lower monthly repayment of X taka based on published rates."
+4.2 Technical Guardrails
+Implementing guardrails at multiple pipeline stages is industry best practice for financial LLM applications:[24][21][^20]
+--------------------------
+--- MATCH found at 38 ---
+4. Compliance and Non-Advisory Guardrails
+4.1 Regulatory Position
+In Phase 1, the platform operates as an information portal and requires no Bangladesh Bank licence. The AFC must remain within this boundary. The key constraints are:[^5]
+Personal Data Protection Ordinance 2025 (PDPO 2025): Requires explicit, specific, and revocable consent before processing personal data. Financial data is classified as sensitive. The AFC must never persist raw financial inputs from conversational flows to server storage. All loan calculations must remain client-side or in-session only, consistent with the existing privacy architecture.[22][23][^16]
+Cyber Security Act 2023: Section 26 prohibits collecting identity information without lawful authority. AFC must not prompt for NID, phone number, or other identity data in Phase 1.[^5]
+Information Only Rule: The AFC must not say "you should take this loan" or "this product is best for you." It can say "compared to your current loan, this product has an estimated lower monthly repayment of X taka based on published rates."
+4.2 Technical Guardrails
+Implementing guardrails at multiple pipeline stages is industry best practice for financial LLM applications:[24][21][^20]
+5. Technology Architecture
+5.1 Overview
+The AFC is an orchestration layer sitting between the user interface and the existing platform modules. It does not replace or duplicate the Loan Reality Checker, Comparison Hub, or other tools — it calls their underlying APIs and surfaces results conversationally.
+User (PWA / WhatsApp / IVR)
+        |
+   [Input Layer]
+   Web Speech API (voice) → BanglaSpeech2Text/Wav2Vec-BERT ASR
+   Text input → passed directly
+        |
+   [AFC Orchestration Engine — FastAPI]
+        |
+   Intent Classifier (fine-tuned DistilBERT or LLM zero-shot)
+        |
+   [RAG Knowledge Base]            [Tool Routers]
+   Product rates (PostgreSQL)      → Loan Checker Engine (client-side)
+   Institution registry            → Comparison Hub API
+   Document checklists             → Health Assessment API
+   Process guides (Bangla)         → Locator API
+   FAQ corpus (Bangla)             → What-If Planner API
+        |
+   [LLM Response Generator]
+   Mistral 7B (self-hosted) or GPT-4o-mini (API)
+   with guardrail layer (GuardrailsAI / custom filters)
+        |
+   [Output Layer]
+   Text response → Bangla TTS (BanglaTTS / Sarvam TTS API)
+   Display: chat bubble + tool deep-link + disclaimer
+        |
+   User (PWA / WhatsApp / IVR)
+
+--------------------------
+--- MATCH found at 40 ---
+In Phase 1, the platform operates as an information portal and requires no Bangladesh Bank licence. The AFC must remain within this boundary. The key constraints are:[^5]
+Personal Data Protection Ordinance 2025 (PDPO 2025): Requires explicit, specific, and revocable consent before processing personal data. Financial data is classified as sensitive. The AFC must never persist raw financial inputs from conversational flows to server storage. All loan calculations must remain client-side or in-session only, consistent with the existing privacy architecture.[22][23][^16]
+Cyber Security Act 2023: Section 26 prohibits collecting identity information without lawful authority. AFC must not prompt for NID, phone number, or other identity data in Phase 1.[^5]
+Information Only Rule: The AFC must not say "you should take this loan" or "this product is best for you." It can say "compared to your current loan, this product has an estimated lower monthly repayment of X taka based on published rates."
+4.2 Technical Guardrails
+Implementing guardrails at multiple pipeline stages is industry best practice for financial LLM applications:[24][21][^20]
+5. Technology Architecture
+5.1 Overview
+The AFC is an orchestration layer sitting between the user interface and the existing platform modules. It does not replace or duplicate the Loan Reality Checker, Comparison Hub, or other tools — it calls their underlying APIs and surfaces results conversationally.
+User (PWA / WhatsApp / IVR)
+        |
+   [Input Layer]
+   Web Speech API (voice) → BanglaSpeech2Text/Wav2Vec-BERT ASR
+   Text input → passed directly
+        |
+   [AFC Orchestration Engine — FastAPI]
+        |
+   Intent Classifier (fine-tuned DistilBERT or LLM zero-shot)
+        |
+   [RAG Knowledge Base]            [Tool Routers]
+   Product rates (PostgreSQL)      → Loan Checker Engine (client-side)
+   Institution registry            → Comparison Hub API
+   Document checklists             → Health Assessment API
+   Process guides (Bangla)         → Locator API
+   FAQ corpus (Bangla)             → What-If Planner API
+        |
+   [LLM Response Generator]
+   Mistral 7B (self-hosted) or GPT-4o-mini (API)
+   with guardrail layer (GuardrailsAI / custom filters)
+        |
+   [Output Layer]
+   Text response → Bangla TTS (BanglaTTS / Sarvam TTS API)
+   Display: chat bubble + tool deep-link + disclaimer
+        |
+   User (PWA / WhatsApp / IVR)
+
+5.2 Technology Stack
+5.3 RAG Knowledge Base Design
+--------------------------
+--- MATCH found at 71 ---
+Non-judgmental tone — Never imply a user made a wrong financial decision; frame all outputs as "here is what this means" not "you are paying too much."
+Low-bandwidth first — Text responses load before audio; audio is optional and user-triggered.[42][38]
+No login required — Consistent with platform-wide Phase 1 principle.[^39]
+7.2 PWA Chat Interface
+Entry Points:
+Floating "AI Companion" button on all tool pages — opens full-screen chat overlay.
+Dedicated AFC page accessible from bottom navigation.
+Deep-link from Loan Checker results: "Ask about better options" button.
+Chat Bubble Design:
+User message: right-aligned, green bubble, Bangla text.
+AFC response: left-aligned, white bubble with source badge and disclaimer footer.
+Audio playback button on every AFC response bubble (tap to hear in Bangla TTS).
+--------------------------
+--- MATCH found at 123 ---
+Recommendation: Use BanglaASR (Hugging Face/Whisper Bangla, WER 4.58%) for the PWA voice channel, with Wav2Vec-BERT as the production upgrade path once tested. The "review before send" UI step mitigates residual ASR errors.[^32]
+9.2 Text-to-Speech (TTS)
+Recommendation: BanglaTTS for Phase 1 (free, offline, MIT licence); migrate to Sarvam TTS API for Phase 2 when production voice quality becomes important for brand perception.[^33]
+9.3 NLP and Language Models
+Sarvam AI has open-sourced models supporting Bengali as one of 10 Indic languages, including Sarvam 2B (a 2B-parameter Indic LLM), Shuka 1.0 (open-source Indic AudioLM), and Sarvam 30B (open-sourced March 2026). These models are particularly relevant because Bengali (Bangladesh dialect) is included and the models are designed for voice-based tasks.[46][47][^33]
+For the intent classifier, a fine-tuned DistilBERT or mBERT on a Bangla financial query dataset is recommended, using the BNLP toolkit for preprocessing (tokenisation, NER, stopword removal for Bangla). The TEXTOIR platform provides open-source tooling for open intent recognition, critical for gracefully handling out-of-scope queries.[48][49]
+10. Implementation Roadmap
+10.1 Phase Mapping to Existing Roadmap
+The AFC maps directly to the existing Implementation Plan:[^17]
+10.2 Immediate Sprint (Next 4 Weeks)
+Define and document intent taxonomy with 50+ labelled examples per class in Bangla.
+Scaffold FastAPI AFC endpoint with LangChain integration and stub tool routers.
+--------------------------
+--- MATCH found at 128 ---
+For the intent classifier, a fine-tuned DistilBERT or mBERT on a Bangla financial query dataset is recommended, using the BNLP toolkit for preprocessing (tokenisation, NER, stopword removal for Bangla). The TEXTOIR platform provides open-source tooling for open intent recognition, critical for gracefully handling out-of-scope queries.[48][49]
+10. Implementation Roadmap
+10.1 Phase Mapping to Existing Roadmap
+The AFC maps directly to the existing Implementation Plan:[^17]
+10.2 Immediate Sprint (Next 4 Weeks)
+Define and document intent taxonomy with 50+ labelled examples per class in Bangla.
+Scaffold FastAPI AFC endpoint with LangChain integration and stub tool routers.
+Build initial RAG knowledge base: Bangladesh Bank rate corpus + 20-bank application guides in Bangla.
+Implement basic intent classifier (zero-shot LLM) and test on 100 sample queries.
+Build AFC chat UI component in Next.js with Bangla font support (Noto Sans Bengali).
+Wire loan assessment intent → Loan Checker API → formatted response with comparison products.
+Add disclaimer injection layer and out-of-scope redirect handler.
+--------------------------
+--- MATCH found at 150 ---
+Sarvam AI Agents (India): Voice-enabled, multilingual agents deployable via telephone, WhatsApp, or in-app; Bengali included; available at ~₹1/minute. Most directly applicable technology stack reference.[46][33]
+Conclusion
+The AI Financial Companion is not merely a chatbot layer — it is the primary inclusion mechanism for reaching non-privileged users who cannot navigate structured English-language web forms. Its architecture is technically viable using open-source components that align with the existing platform stack. Its guardrails are well-defined and enforceable within the non-advisory product rules. Its rollout path fits squarely within the existing Phase 1A–1C roadmap without displacing any planned deliverable.
+The highest-priority action is to begin building the AFC in parallel with the existing tool integration sprint, starting with the text-chat loan assessment flow, which can reuse the credit engine immediately. The voice layer, IVR fallback, and WhatsApp channel are phased additions that progressively close the access gap for Tier 2 and Tier 3 users who represent the majority of the platform's intended beneficiaries.
+References
+Deep digital divide persists across Bangladesh - A significant gap in internet access continues to separate rural and urban populations in Bangladesh...
+Digital divide: 32.1% gap in internet usage between urban and rural ... - The Economic Express, online newspaper published in both English and Bangla language update national...
+Bangladesh achieves near-universal digital connectivity - DHAKA, April 16, 2026 (BSS) – Bangladesh has reached a historic watershed in digital accessibility, ...
+01_Master_Project_Overview.docx - # Bangladesh Financial Companion Platform
+Master Project Overview | May 2026 | Version 1.1
+1....
+Bangladesh-FinTech-Financial-Data-Aggregator-Market-Research-Report.docx - Bangladesh FinTech Financial Data Aggregator Market Research Report Prepared for FinTech-Scrapper-Ag...
+--------------------------
