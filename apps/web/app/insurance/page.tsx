@@ -1,82 +1,82 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import AudioAssist from "../components/AudioAssist";
 
 const INSURANCE_TYPES = [
-  { key: "health",    icon: "ðŸ¥", label: "à¦¸à§à¦¬à¦¾à¦¸à§à¦¥à§à¦¯ à¦¬à§€à¦®à¦¾"  },
-  { key: "life",      icon: "ðŸ’€", label: "à¦œà§€à¦¬à¦¨ à¦¬à§€à¦®à¦¾"     },
-  { key: "crop",      icon: "ðŸŒ¾", label: "à¦«à¦¸à¦² à¦¬à§€à¦®à¦¾"      },
-  { key: "property",  icon: "ðŸ ", label: "à¦¸à¦®à§à¦ªà¦¦ à¦¬à§€à¦®à¦¾"    },
+  { key: "health",    icon: "🏥", label: "স্বাস্থ্য বীমা"  },
+  { key: "life",      icon: "💀", label: "জীবন বীমা"     },
+  { key: "crop",      icon: "🌾", label: "ফসল বীমা"      },
+  { key: "property",  icon: "🏠", label: "সম্পদ বীমা"    },
 ];
 
 const EXPLAINER_SLIDES = [
-  { icon: "ðŸ’°", title: "à¦†à¦ªà¦¨à¦¿ à¦ªà§à¦°à¦¤à¦¿ à¦®à¦¾à¦¸à§‡ à¦›à§‹à¦Ÿ à¦à¦•à¦Ÿà¦¿ à¦Ÿà¦¾à¦•à¦¾ à¦œà¦®à¦¾à¦¨", body: "à¦¬à§€à¦®à¦¾ à¦•à§‹à¦®à§à¦ªà¦¾à¦¨à¦¿à¦•à§‡ à¦¦à§‡à¦¨ â€” à¦à¦•à§‡ à¦ªà§à¦°à¦¿à¦®à¦¿à¦¯à¦¼à¦¾à¦® à¦¬à¦²à§‡à¥¤", audio: "à¦¬à§€à¦®à¦¾à¦¯à¦¼ à¦†à¦ªà¦¨à¦¿ à¦ªà§à¦°à¦¤à¦¿ à¦®à¦¾à¦¸à§‡ à¦›à§‹à¦Ÿ à¦à¦•à¦Ÿà¦¿ à¦Ÿà¦¾à¦•à¦¾ à¦¦à§‡à¦¨à¥¤ à¦à¦•à§‡ à¦ªà§à¦°à¦¿à¦®à¦¿à¦¯à¦¼à¦¾à¦® à¦¬à¦²à§‡à¥¤" },
-  { icon: "ðŸ¥", title: "à¦¹à¦ à¦¾à§Ž à¦¬à¦¿à¦ªà¦¦ à¦¹à¦²à§‡ (à¦…à¦¸à§à¦¸à§à¦¥à¦¤à¦¾, à¦®à§ƒà¦¤à§à¦¯à§, à¦†à¦—à§à¦¨)", body: "à¦¬à§€à¦®à¦¾ à¦•à§‹à¦®à§à¦ªà¦¾à¦¨à¦¿ à¦à¦•à¦Ÿà¦¿ à¦¬à¦¡à¦¼ à¦Ÿà¦¾à¦•à¦¾ à¦¦à§‡à¦¯à¦¼ â€” à¦¯à¦¾à¦¤à§‡ à¦†à¦ªà¦¨à¦¾à¦•à§‡ à¦œà¦®à¦¿ à¦¬à¦¿à¦•à§à¦°à¦¿ à¦•à¦°à¦¤à§‡ à¦¨à¦¾ à¦¹à¦¯à¦¼à¥¤", audio: "à¦¬à¦¿à¦ªà¦¦ à¦¹à¦²à§‡ à¦¬à§€à¦®à¦¾ à¦•à§‹à¦®à§à¦ªà¦¾à¦¨à¦¿ à¦à¦•à¦Ÿà¦¿ à¦¬à¦¡à¦¼ à¦Ÿà¦¾à¦•à¦¾ à¦¦à§‡à¦¯à¦¼à¥¤ à¦¯à¦¾à¦¤à§‡ à¦†à¦ªà¦¨à¦¾à¦•à§‡ à¦¸à¦®à§à¦ªà¦¦ à¦¬à¦¿à¦•à§à¦°à¦¿ à¦•à¦°à¦¤à§‡ à¦¨à¦¾ à¦¹à¦¯à¦¼à¥¤" },
-  { icon: "âœ…", title: "à¦¬à§€à¦®à¦¾ à¦•à§€ à¦¨à¦¯à¦¼?", body: "à¦¬à§€à¦®à¦¾ à¦²à¦¾à¦­à¦œà¦¨à¦• à¦¬à¦¿à¦¨à¦¿à¦¯à¦¼à§‹à¦— à¦¨à¦¯à¦¼à¥¤ à¦à¦Ÿà¦¿ à¦à§à¦à¦•à¦¿ à¦¥à§‡à¦•à§‡ à¦¸à§à¦°à¦•à§à¦·à¦¾ à¦®à¦¾à¦¤à§à¦°à¥¤", audio: "à¦¬à§€à¦®à¦¾ à¦¬à¦¿à¦¨à¦¿à¦¯à¦¼à§‹à¦— à¦¨à¦¯à¦¼à¥¤ à¦à¦Ÿà¦¿ à¦¬à¦¿à¦ªà¦¦à§‡à¦° à¦¸à¦®à¦¯à¦¼ à¦¸à§à¦°à¦•à§à¦·à¦¾ à¦¦à§‡à¦¯à¦¼à¥¤" },
+  { icon: "💰", title: "আপনি প্রতি মাসে ছোট একটি টাকা জমান", body: "বীমা কোম্পানিকে দেন — একে প্রিমিয়াম বলে।", audio: "বীমায় আপনি প্রতি মাসে ছোট একটি টাকা দেন। একে প্রিমিয়াম বলে।" },
+  { icon: "🏥", title: "হঠাৎ বিপদ হলে (অসুস্থতা, মৃত্যু, আগুন)", body: "বীমা কোম্পানি একটি বড় টাকা দেয় — যাতে আপনাকে জমি বিক্রি করতে না হয়।", audio: "বিপদ হলে বীমা কোম্পানি একটি বড় টাকা দেয়। যাতে আপনাকে সম্পদ বিক্রি করতে না হয়।" },
+  { icon: "✅", title: "বীমা কী নয়?", body: "বীমা লাভজনক বিনিয়োগ নয়। এটি ঝুঁকি থেকে সুরক্ষা মাত্র।", audio: "বীমা বিনিয়োগ নয়। এটি বিপদের সময় সুরক্ষা দেয়।" },
 ];
 
 const PRODUCTS: Record<string, { name: string; provider: string; premium: string; covers: string; claim: string; idra: string; audio: string }[]> = {
   health: [
     {
-      name: "à¦¸à§à¦¬à¦¾à¦¸à§à¦¥à§à¦¯ à¦¸à§à¦°à¦•à§à¦·à¦¾ à¦¬à§€à¦®à¦¾",
+      name: "স্বাস্থ্য সুরক্ষা বীমা",
       provider: "Delta Life Insurance",
-      premium: "à¦®à¦¾à¦¸à§‡ à§³à§§à§«à§¦-à§³à§«à§¦à§¦",
-      covers: "à¦¹à¦¾à¦¸à¦ªà¦¾à¦¤à¦¾à¦²à§‡ à¦­à¦°à§à¦¤à¦¿ à¦–à¦°à¦š à¦ªà¦°à§à¦¯à¦¨à§à¦¤ à§³à§«à§¦,à§¦à§¦à§¦",
-      claim: "à¦¹à¦¾à¦¸à¦ªà¦¾à¦¤à¦¾à¦²à§‡à¦° à¦¬à¦¿à¦² à¦“ à¦­à¦°à§à¦¤à¦¿à¦° à¦•à¦¾à¦—à¦œ à¦¦à¦¿à¦¯à¦¼à§‡ à¦¦à¦¾à¦¬à¦¿ à¦•à¦°à§à¦¨",
-      idra: "IDRA à¦¨à¦¿à¦¬à¦¨à§à¦§à¦¿à¦¤",
-      audio: "à¦¡à§‡à¦²à§à¦Ÿà¦¾ à¦²à¦¾à¦‡à¦«à§‡à¦° à¦¸à§à¦¬à¦¾à¦¸à§à¦¥à§à¦¯ à¦¸à§à¦°à¦•à§à¦·à¦¾ à¦¬à§€à¦®à¦¾ à¦®à¦¾à¦¸à§‡ à§§à§«à§¦ à¦¥à§‡à¦•à§‡ à§«à§¦à§¦ à¦Ÿà¦¾à¦•à¦¾à¦¯à¦¼ à§«à§¦ à¦¹à¦¾à¦œà¦¾à¦° à¦Ÿà¦¾à¦•à¦¾ à¦ªà¦°à§à¦¯à¦¨à§à¦¤ à¦¹à¦¾à¦¸à¦ªà¦¾à¦¤à¦¾à¦²à§‡à¦° à¦–à¦°à¦š à¦¦à§‡à¦¯à¦¼à¥¤",
+      premium: "মাসে ৳১৫০-৳৫০০",
+      covers: "হাসপাতালে ভর্তি খরচ পর্যন্ত ৳৫০,০০০",
+      claim: "হাসপাতালের বিল ও ভর্তির কাগজ দিয়ে দাবি করুন",
+      idra: "IDRA নিবন্ধিত",
+      audio: "ডেল্টা লাইফের স্বাস্থ্য সুরক্ষা বীমা মাসে ১৫০ থেকে ৫০০ টাকায় ৫০ হাজার টাকা পর্যন্ত হাসপাতালের খরচ দেয়।",
     },
     {
-      name: "à¦—à§à¦°à¦¾à¦®à§€à¦£ à¦¸à§à¦¬à¦¾à¦¸à§à¦¥à§à¦¯ à¦¬à§€à¦®à¦¾",
+      name: "গ্রামীণ স্বাস্থ্য বীমা",
       provider: "Green Delta Insurance",
-      premium: "à¦®à¦¾à¦¸à§‡ à§³à§§à§¦à§¦-à§³à§©à§¦à§¦",
-      covers: "à¦¬à¦¾à¦¹à§à¦¯à¦¿à¦• à¦“ à¦…à¦­à§à¦¯à¦¨à§à¦¤à¦°à§€à¦£ à¦šà¦¿à¦•à¦¿à§Žà¦¸à¦¾ à¦¸à¦¹à¦¾à¦¯à¦¼à¦¤à¦¾",
-      claim: "à¦ªà§à¦°à§‡à¦¸à¦•à§à¦°à¦¿à¦ªà¦¶à¦¨ à¦“ à¦¬à¦¿à¦²à¦¸à¦¹ à¦¨à¦¿à¦•à¦Ÿà¦¸à§à¦¥ à¦¶à¦¾à¦–à¦¾à¦¯à¦¼ à¦¦à¦¾à¦¬à¦¿ à¦•à¦°à§à¦¨",
-      idra: "IDRA à¦¨à¦¿à¦¬à¦¨à§à¦§à¦¿à¦¤",
-      audio: "à¦—à§à¦°à¦¿à¦¨ à¦¡à§‡à¦²à§à¦Ÿà¦¾à¦° à¦—à§à¦°à¦¾à¦®à§€à¦£ à¦¸à§à¦¬à¦¾à¦¸à§à¦¥à§à¦¯ à¦¬à§€à¦®à¦¾ à¦®à¦¾à¦¸à§‡ à§§à§¦à§¦ à¦¥à§‡à¦•à§‡ à§©à§¦à§¦ à¦Ÿà¦¾à¦•à¦¾à¦¯à¦¼ à¦ªà¦¾à¦“à¦¯à¦¼à¦¾ à¦¯à¦¾à¦¯à¦¼à¥¤",
+      premium: "মাসে ৳১০০-৳৩০০",
+      covers: "বাহ্যিক ও অভ্যন্তরীণ চিকিৎসা সহায়তা",
+      claim: "প্রেসক্রিপশন ও বিলসহ নিকটস্থ শাখায় দাবি করুন",
+      idra: "IDRA নিবন্ধিত",
+      audio: "গ্রিন ডেল্টার গ্রামীণ স্বাস্থ্য বীমা মাসে ১০০ থেকে ৩০০ টাকায় পাওয়া যায়।",
     },
   ],
   life: [
     {
-      name: "à¦œà§€à¦¬à¦¨ à¦¬à§€à¦®à¦¾ (à¦¸à¦¾à¦§à¦¾à¦°à¦£)",
+      name: "জীবন বীমা (সাধারণ)",
       provider: "National Life Insurance",
-      premium: "à¦®à¦¾à¦¸à§‡ à§³à§¨à§¦à§¦-à§³à§®à§¦à§¦",
-      covers: "à¦®à§ƒà¦¤à§à¦¯à§à¦¤à§‡ à¦ªà¦°à¦¿à¦¬à¦¾à¦°à¦•à§‡ à§³à§§-à§³à§« à¦²à¦•à§à¦·",
-      claim: "à¦®à§ƒà¦¤à§à¦¯à§ à¦¸à¦¨à¦¦, NID à¦“ à¦¨à¦®à¦¿à¦¨à¦¿à¦° à¦•à¦¾à¦—à¦œ à¦¦à¦¿à¦¯à¦¼à§‡ à¦¦à¦¾à¦¬à¦¿ à¦•à¦°à§à¦¨",
-      idra: "IDRA à¦¨à¦¿à¦¬à¦¨à§à¦§à¦¿à¦¤",
-      audio: "à¦¨à§à¦¯à¦¾à¦¶à¦¨à¦¾à¦² à¦²à¦¾à¦‡à¦«à§‡à¦° à¦œà§€à¦¬à¦¨ à¦¬à§€à¦®à¦¾ à¦®à¦¾à¦¸à§‡ à§¨à§¦à§¦ à¦¥à§‡à¦•à§‡ à§®à§¦à§¦ à¦Ÿà¦¾à¦•à¦¾à¦¯à¦¼ à¦®à§ƒà¦¤à§à¦¯à§à¦¤à§‡ à¦ªà¦°à¦¿à¦¬à¦¾à¦°à¦•à§‡ à§§ à¦¥à§‡à¦•à§‡ à§« à¦²à¦•à§à¦· à¦Ÿà¦¾à¦•à¦¾ à¦¦à§‡à¦¯à¦¼à¥¤",
+      premium: "মাসে ৳২০০-৳৮০০",
+      covers: "মৃত্যুতে পরিবারকে ৳১-৳৫ লক্ষ",
+      claim: "মৃত্যু সনদ, NID ও নমিনির কাগজ দিয়ে দাবি করুন",
+      idra: "IDRA নিবন্ধিত",
+      audio: "ন্যাশনাল লাইফের জীবন বীমা মাসে ২০০ থেকে ৮০০ টাকায় মৃত্যুতে পরিবারকে ১ থেকে ৫ লক্ষ টাকা দেয়।",
     },
     {
-      name: "à¦®à¦¾à¦‡à¦•à§à¦°à§‹ à¦²à¦¾à¦‡à¦« à¦ªà§à¦²à§à¦¯à¦¾à¦¨",
+      name: "মাইক্রো লাইফ প্ল্যান",
       provider: "Pragati Life Insurance",
-      premium: "à¦®à¦¾à¦¸à§‡ à§³à§«à§¦-à§³à§§à§«à§¦",
-      covers: "à¦®à§ƒà¦¤à§à¦¯à§à¦¤à§‡ à¦ªà¦°à¦¿à¦¬à¦¾à¦°à¦•à§‡ à§³à§©à§¦,à§¦à§¦à§¦",
-      claim: "à¦®à§ƒà¦¤à§à¦¯à§ à¦¸à¦¨à¦¦à¦¸à¦¹ à¦¨à¦¿à¦•à¦Ÿà¦¸à§à¦¥ à¦¶à¦¾à¦–à¦¾à¦¯à¦¼ à¦¦à¦¾à¦¬à¦¿ à¦•à¦°à§à¦¨",
-      idra: "IDRA à¦¨à¦¿à¦¬à¦¨à§à¦§à¦¿à¦¤",
-      audio: "à¦ªà§à¦°à¦—à¦¤à¦¿ à¦²à¦¾à¦‡à¦«à§‡à¦° à¦®à¦¾à¦‡à¦•à§à¦°à§‹ à¦ªà§à¦²à§à¦¯à¦¾à¦¨ à¦®à¦¾à¦¸à§‡ à¦®à¦¾à¦¤à§à¦° à§«à§¦ à¦¥à§‡à¦•à§‡ à§§à§«à§¦ à¦Ÿà¦¾à¦•à¦¾à¦¯à¦¼ à¦ªà¦¾à¦“à¦¯à¦¼à¦¾ à¦¯à¦¾à¦¯à¦¼à¥¤",
+      premium: "মাসে ৳৫০-৳১৫০",
+      covers: "মৃত্যুতে পরিবারকে ৳৩০,০০০",
+      claim: "মৃত্যু সনদসহ নিকটস্থ শাখায় দাবি করুন",
+      idra: "IDRA নিবন্ধিত",
+      audio: "প্রগতি লাইফের মাইক্রো প্ল্যান মাসে মাত্র ৫০ থেকে ১৫০ টাকায় পাওয়া যায়।",
     },
   ],
   crop: [
     {
-      name: "à¦«à¦¸à¦² à¦¬à§€à¦®à¦¾",
+      name: "ফসল বীমা",
       provider: "Sadharan Bima Corporation (SBC)",
-      premium: "à¦«à¦¸à¦²à§‡à¦° à¦®à§‚à¦²à§à¦¯à§‡à¦° ~à§¨-à§©%",
-      covers: "à¦¬à¦¨à§à¦¯à¦¾, à¦–à¦°à¦¾ à¦¬à¦¾ à¦ªà§‹à¦•à¦¾à¦¯à¦¼ à¦«à¦¸à¦² à¦¨à¦·à§à¦Ÿ à¦¹à¦²à§‡ à¦•à§à¦·à¦¤à¦¿à¦ªà§‚à¦°à¦£",
-      claim: "à¦‰à¦ªà¦œà§‡à¦²à¦¾ à¦•à§ƒà¦·à¦¿ à¦…à¦«à¦¿à¦¸à§‡à¦° à¦ªà§à¦°à¦¤à§à¦¯à¦¯à¦¼à¦¨à¦¸à¦¹ à¦¦à¦¾à¦¬à¦¿ à¦•à¦°à§à¦¨",
-      idra: "IDRA à¦¨à¦¿à¦¬à¦¨à§à¦§à¦¿à¦¤",
-      audio: "à¦¸à¦¾à¦§à¦¾à¦°à¦£ à¦¬à§€à¦®à¦¾ à¦•à¦°à§à¦ªà§‹à¦°à§‡à¦¶à¦¨à§‡à¦° à¦«à¦¸à¦² à¦¬à§€à¦®à¦¾ à¦¬à¦¨à§à¦¯à¦¾ à¦¬à¦¾ à¦–à¦°à¦¾à¦¯à¦¼ à¦«à¦¸à¦² à¦¨à¦·à§à¦Ÿ à¦¹à¦²à§‡ à¦•à§à¦·à¦¤à¦¿à¦ªà§‚à¦°à¦£ à¦¦à§‡à¦¯à¦¼à¥¤",
+      premium: "ফসলের মূল্যের ~২-৩%",
+      covers: "বন্যা, খরা বা পোকায় ফসল নষ্ট হলে ক্ষতিপূরণ",
+      claim: "উপজেলা কৃষি অফিসের প্রত্যয়নসহ দাবি করুন",
+      idra: "IDRA নিবন্ধিত",
+      audio: "সাধারণ বীমা কর্পোরেশনের ফসল বীমা বন্যা বা খরায় ফসল নষ্ট হলে ক্ষতিপূরণ দেয়।",
     },
   ],
   property: [
     {
-      name: "à¦—à§ƒà¦¹à¦¸à§à¦¥à¦¾à¦²à¦¿ à¦¸à¦®à§à¦ªà¦¦ à¦¬à§€à¦®à¦¾",
+      name: "গৃহস্থালি সম্পদ বীমা",
       provider: "Rupali General Insurance",
-      premium: "à¦¬à¦¾à¦°à§à¦·à¦¿à¦• à§³à§©à§¦à§¦-à§³à§§,à§¦à§¦à§¦",
-      covers: "à¦†à¦—à§à¦¨, à¦šà§à¦°à¦¿ à¦¬à¦¾ à¦¦à§à¦°à§à¦˜à¦Ÿà¦¨à¦¾à¦¯à¦¼ à¦¸à¦®à§à¦ªà¦¦ à¦•à§à¦·à¦¤à¦¿",
-      claim: "à¦ªà§à¦²à¦¿à¦¶ à¦°à¦¿à¦ªà§‹à¦°à§à¦Ÿ à¦“ à¦•à§à¦·à¦¤à¦¿à¦° à¦›à¦¬à¦¿à¦¸à¦¹ à¦¦à¦¾à¦¬à¦¿ à¦•à¦°à§à¦¨",
-      idra: "IDRA à¦¨à¦¿à¦¬à¦¨à§à¦§à¦¿à¦¤",
-      audio: "à¦°à§‚à¦ªà¦¾à¦²à§€ à¦œà§‡à¦¨à¦¾à¦°à§‡à¦² à¦¬à§€à¦®à¦¾à¦° à¦—à§ƒà¦¹à¦¸à§à¦¥à¦¾à¦²à¦¿ à¦¬à§€à¦®à¦¾ à¦†à¦—à§à¦¨ à¦¬à¦¾ à¦šà§à¦°à¦¿à¦¤à§‡ à¦¸à¦®à§à¦ªà¦¦ à¦•à§à¦·à¦¤à¦¿à¦° à¦¬à¦¿à¦ªà¦°à§€à¦¤à§‡ à¦¸à§à¦°à¦•à§à¦·à¦¾ à¦¦à§‡à¦¯à¦¼à¥¤",
+      premium: "বার্ষিক ৳৩০০-৳১,০০০",
+      covers: "আগুন, চুরি বা দুর্ঘটনায় সম্পদ ক্ষতি",
+      claim: "পুলিশ রিপোর্ট ও ক্ষতির ছবিসহ দাবি করুন",
+      idra: "IDRA নিবন্ধিত",
+      audio: "রূপালী জেনারেল বীমার গৃহস্থালি বীমা আগুন বা চুরিতে সম্পদ ক্ষতির বিপরীতে সুরক্ষা দেয়।",
     },
   ],
 };
@@ -87,7 +87,7 @@ export default function InsurancePage() {
   const [verifyName,  setVerifyName]  = useState("");
   const [verifyResult, setVerifyResult] = useState<"registered" | "unknown" | null>(null);
 
-  // Simplified verification â€” a short list of known registered companies
+  // Simplified verification — a short list of known registered companies
   const REGISTERED = ["delta life", "green delta", "national life", "pragati life", "rupali", "sadharan bima", "sbc", "popular life", "meghna life", "allianz", "sunlife", "bsrs"];
 
   const handleVerify = () => {
@@ -99,21 +99,21 @@ export default function InsurancePage() {
   return (
     <>
       <div className="section-header">
-        <h1 className="section-title">ðŸŒ± à¦¬à§€à¦®à¦¾ à¦¸à¦šà§‡à¦¤à¦¨à¦¤à¦¾</h1>
-        <p className="section-subtitle">à¦¬à§€à¦®à¦¾ à¦¬à§à¦à§à¦¨, à¦¸à¦ à¦¿à¦• à¦ªà¦£à§à¦¯ à¦¬à§‡à¦›à§‡ à¦¨à¦¿à¦¨, à¦ªà§à¦°à¦¤à¦¾à¦°à¦£à¦¾ à¦à¦¡à¦¼à¦¾à¦¨</p>
+        <h1 className="section-title">🌱 বীমা সচেতনতা</h1>
+        <p className="section-subtitle">বীমা বুঝুন, সঠিক পণ্য বেছে নিন, প্রতারণা এড়ান</p>
       </div>
 
       <div className="p-4" style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
 
-        {/* Section 1 â€” What is insurance */}
+        {/* Section 1 — What is insurance */}
         <section aria-labelledby="explainer-title">
           <h2 id="explainer-title" style={{ fontSize: "17px", fontWeight: "700", marginBottom: "12px" }}>
-            ðŸ’¡ à¦¬à§€à¦®à¦¾ à¦•à§€? (à¦¸à¦¹à¦œ à¦­à¦¾à¦·à¦¾à¦¯à¦¼)
+            💡 বীমা কী? (সহজ ভাষায়)
           </h2>
           <div className="card" style={{ padding: "var(--space-4)" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "12px" }}>
               <span style={{ fontSize: "36px" }}>{EXPLAINER_SLIDES[slide].icon}</span>
-              <AudioAssist text={EXPLAINER_SLIDES[slide].audio} label="à¦¶à§à¦¨à§à¦¨" />
+              <AudioAssist text={EXPLAINER_SLIDES[slide].audio} label="শুনুন" />
             </div>
             <p style={{ fontSize: "16px", fontWeight: "700", marginBottom: "8px" }}>{EXPLAINER_SLIDES[slide].title}</p>
             <p style={{ fontSize: "14px", color: "var(--color-text-secondary)", lineHeight: 1.6 }}>{EXPLAINER_SLIDES[slide].body}</p>
@@ -123,7 +123,7 @@ export default function InsurancePage() {
                 disabled={slide === 0}
                 className="btn btn--outline"
                 style={{ flex: 1, justifyContent: "center", fontSize: "13px" }}
-              >â† à¦†à¦—à§‡</button>
+              >← আগে</button>
               <div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center", gap: "6px" }}>
                 {EXPLAINER_SLIDES.map((_, i) => (
                   <span key={i} style={{ width: "8px", height: "8px", borderRadius: "50%", background: i === slide ? "var(--color-primary)" : "var(--color-border)" }} />
@@ -134,17 +134,17 @@ export default function InsurancePage() {
                 disabled={slide === EXPLAINER_SLIDES.length - 1}
                 className="btn btn--outline"
                 style={{ flex: 1, justifyContent: "center", fontSize: "13px" }}
-              >à¦ªà¦°à§‡ â†’</button>
+              >পরে →</button>
             </div>
           </div>
         </section>
 
-        {/* Section 2 â€” Products by type */}
+        {/* Section 2 — Products by type */}
         <section aria-labelledby="products-title">
           <h2 id="products-title" style={{ fontSize: "17px", fontWeight: "700", marginBottom: "12px" }}>
-            ðŸ“‹ à¦•à§‹à¦¨ à¦¬à§€à¦®à¦¾ à¦†à¦ªà¦¨à¦¾à¦° à¦•à¦¾à¦œà§‡ à¦²à¦¾à¦—à¦¬à§‡?
+            📋 কোন বীমা আপনার কাজে লাগবে?
           </h2>
-          <div className="category-grid" role="group" aria-label="à¦¬à§€à¦®à¦¾à¦° à¦§à¦°à¦¨" style={{ marginBottom: "16px" }}>
+          <div className="category-grid" role="group" aria-label="বীমার ধরন" style={{ marginBottom: "16px" }}>
             {INSURANCE_TYPES.map(t => (
               <button
                 key={t.key}
@@ -165,57 +165,57 @@ export default function InsurancePage() {
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                     <div style={{ flex: 1 }}>
                       <p style={{ fontWeight: "700", fontSize: "15px", marginBottom: "2px" }}>{prod.name}</p>
-                      <p style={{ fontSize: "12px", color: "var(--color-primary)", fontWeight: "600", marginBottom: "8px" }}>{prod.provider} Â· {prod.idra}</p>
+                      <p style={{ fontSize: "12px", color: "var(--color-primary)", fontWeight: "600", marginBottom: "8px" }}>{prod.provider} · {prod.idra}</p>
                       <p style={{ fontSize: "16px", fontWeight: "800", color: "var(--color-primary)", marginBottom: "4px" }}>{prod.premium}</p>
-                      <p style={{ fontSize: "13px", color: "var(--color-text-secondary)", marginBottom: "4px" }}>âœ… à¦•à¦­à¦¾à¦° à¦•à¦°à§‡: {prod.covers}</p>
-                      <p style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>ðŸ“‹ à¦¦à¦¾à¦¬à¦¿ à¦•à¦°à¦¤à§‡: {prod.claim}</p>
+                      <p style={{ fontSize: "13px", color: "var(--color-text-secondary)", marginBottom: "4px" }}>✅ কভার করে: {prod.covers}</p>
+                      <p style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>📋 দাবি করতে: {prod.claim}</p>
                     </div>
                     <AudioAssist text={prod.audio} size="sm" />
                   </div>
                 </div>
               ))}
-              <p style={{ fontSize: "12px", color: "var(--color-text-tertiary)" }}>à¦¤à¦¥à§à¦¯ à¦¸à¦°à§à¦¬à¦¶à§‡à¦· à¦¯à¦¾à¦šà¦¾à¦‡: à¦œà§à¦²à¦¾à¦‡ à§¨à§¦à§¨à§¬à¥¤ à¦¸à¦ à¦¿à¦• à¦ªà§à¦°à¦¿à¦®à¦¿à¦¯à¦¼à¦¾à¦® à¦ªà§à¦°à¦¤à¦¿à¦·à§à¦ à¦¾à¦¨ à¦¥à§‡à¦•à§‡ à¦¨à¦¿à¦¶à§à¦šà¦¿à¦¤ à¦•à¦°à§à¦¨à¥¤</p>
+              <p style={{ fontSize: "12px", color: "var(--color-text-tertiary)" }}>তথ্য সর্বশেষ যাচাই: জুলাই ২০২৬। সঠিক প্রিমিয়াম প্রতিষ্ঠান থেকে নিশ্চিত করুন।</p>
             </div>
           )}
         </section>
 
-        {/* Section 3 â€” Verify company */}
+        {/* Section 3 — Verify company */}
         <section aria-labelledby="verify-title">
           <h2 id="verify-title" style={{ fontSize: "17px", fontWeight: "700", marginBottom: "4px" }}>
-            ðŸ” à¦à¦‡ à¦¬à§€à¦®à¦¾ à¦•à§‹à¦®à§à¦ªà¦¾à¦¨à¦¿ à¦•à¦¿ à¦¬à§ˆà¦§?
+            🔍 এই বীমা কোম্পানি কি বৈধ?
           </h2>
           <p style={{ fontSize: "13px", color: "var(--color-text-secondary)", marginBottom: "12px" }}>
-            à¦•à§‹à¦®à§à¦ªà¦¾à¦¨à¦¿à¦° à¦¨à¦¾à¦® à¦²à¦¿à¦–à§à¦¨ â€” IDRA à¦¨à¦¿à¦¬à¦¨à§à¦§à¦¿à¦¤ à¦•à¦¿à¦¨à¦¾ à¦¦à§‡à¦–à§à¦¨
+            কোম্পানির নাম লিখুন — IDRA নিবন্ধিত কিনা দেখুন
           </p>
           <div className="card" style={{ padding: "var(--space-4)" }}>
             <div style={{ display: "flex", gap: "8px" }}>
               <input
                 type="text"
                 className="input-field"
-                placeholder="à¦•à§‹à¦®à§à¦ªà¦¾à¦¨à¦¿à¦° à¦¨à¦¾à¦® à¦²à¦¿à¦–à§à¦¨"
+                placeholder="কোম্পানির নাম লিখুন"
                 value={verifyName}
                 onChange={e => { setVerifyName(e.target.value); setVerifyResult(null); }}
                 style={{ flex: 1, fontSize: "16px" }}
               />
-              <button className="btn btn--primary" onClick={handleVerify} style={{ justifyContent: "center", padding: "0 16px" }}>à¦–à§à¦à¦œà§à¦¨</button>
+              <button className="btn btn--primary" onClick={handleVerify} style={{ justifyContent: "center", padding: "0 16px" }}>খুঁজুন</button>
             </div>
             {verifyResult === "registered" && (
               <div style={{ marginTop: "12px", padding: "12px", borderRadius: "8px", background: "var(--color-success-light, #e6f4ea)" }}>
-                <p style={{ fontWeight: "700" }}>âœ… à¦¨à¦¿à¦¬à¦¨à§à¦§à¦¿à¦¤ à¦¬à¦²à§‡ à¦ªà¦¾à¦“à¦¯à¦¼à¦¾ à¦—à§‡à¦›à§‡</p>
-                <p style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>à¦¤à¦¬à§à¦“ à¦¬à¦¿à¦¸à§à¦¤à¦¾à¦°à¦¿à¦¤ à¦¶à¦°à§à¦¤ à¦ªà¦¡à¦¼à§à¦¨ à¦à¦¬à¦‚ IDRA.gov.bd à¦¥à§‡à¦•à§‡ à¦¨à¦¿à¦¶à§à¦šà¦¿à¦¤ à¦•à¦°à§à¦¨à¥¤</p>
+                <p style={{ fontWeight: "700" }}>✅ নিবন্ধিত বলে পাওয়া গেছে</p>
+                <p style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>তবুও বিস্তারিত শর্ত পড়ুন এবং IDRA.gov.bd থেকে নিশ্চিত করুন।</p>
               </div>
             )}
             {verifyResult === "unknown" && (
               <div style={{ marginTop: "12px", padding: "12px", borderRadius: "8px", background: "var(--color-error-light, #fce8e6)" }}>
-                <p style={{ fontWeight: "700" }}>âš ï¸ à¦¨à¦¾à¦® à¦–à§à¦à¦œà§‡ à¦ªà¦¾à¦“à¦¯à¦¼à¦¾ à¦¯à¦¾à¦¯à¦¼à¦¨à¦¿</p>
-                <p style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>IDRA.gov.bd à¦¬à¦¾ à§¦à§¯à§¬à§¬à§¬à§­à§®à§¬à§¯à§®à§¬ à¦¤à§‡ à¦«à§‹à¦¨ à¦•à¦°à§‡ à¦¨à¦¿à¦¶à§à¦šà¦¿à¦¤ à¦•à¦°à§à¦¨à¥¤</p>
+                <p style={{ fontWeight: "700" }}>⚠️ নাম খুঁজে পাওয়া যায়নি</p>
+                <p style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>IDRA.gov.bd বা ০৯৬৬৬৭৮৬৯৮৬ তে ফোন করে নিশ্চিত করুন।</p>
               </div>
             )}
           </div>
         </section>
 
         <div className="disclaimer" role="note">
-          à¦ªà¦£à§à¦¯à§‡à¦° à¦¤à¦¥à§à¦¯ à¦ªà¦°à¦¿à¦¬à¦°à§à¦¤à¦¨ à¦¹à¦¤à§‡ à¦ªà¦¾à¦°à§‡à¥¤ à¦¬à§€à¦®à¦¾ à¦•à§‡à¦¨à¦¾à¦° à¦†à¦—à§‡ à¦¸à¦°à¦¾à¦¸à¦°à¦¿ à¦ªà§à¦°à¦¤à¦¿à¦·à§à¦ à¦¾à¦¨à§‡à¦° à¦¸à¦¾à¦¥à§‡ à¦¯à§‹à¦—à¦¾à¦¯à§‹à¦— à¦•à¦°à§à¦¨à¥¤ à¦à¦Ÿà¦¿ à¦¤à¦¥à§à¦¯ à¦®à¦¾à¦¤à§à¦°, à¦¬à§€à¦®à¦¾ à¦ªà¦°à¦¾à¦®à¦°à§à¦¶ à¦¨à¦¯à¦¼à¥¤
+          পণ্যের তথ্য পরিবর্তন হতে পারে। বীমা কেনার আগে সরাসরি প্রতিষ্ঠানের সাথে যোগাযোগ করুন। এটি তথ্য মাত্র, বীমা পরামর্শ নয়।
         </div>
       </div>
     </>

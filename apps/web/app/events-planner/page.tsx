@@ -1,17 +1,17 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import AudioAssist from "../components/AudioAssist";
 
 const EVENT_TYPES = [
-  { key: "wedding",   icon: "ðŸ’", label: "à¦¬à¦¿à¦¯à¦¼à§‡",           hint: "à¦®à§‹à¦Ÿ à¦…à¦¨à§à¦·à§à¦ à¦¾à¦¨à§‡à¦° à¦–à¦°à¦š" },
-  { key: "dowry",     icon: "ðŸ’°", label: "à¦¯à§Œà¦¤à§à¦• / à¦‰à¦ªà¦¹à¦¾à¦°",  hint: "à¦¬à¦°à¦ªà¦•à§à¦·à§‡à¦° à¦¦à¦¾à¦¬à¦¿ à¦¬à¦¾ à¦ªà¦°à¦¿à¦¬à¦¾à¦°à§‡à¦° à¦‰à¦ªà¦¹à¦¾à¦°" },
-  { key: "eid",       icon: "ðŸŒ™", label: "à¦ˆà¦¦ à¦‰à§Žà¦¸à¦¬",        hint: "à¦•à§‡à¦¨à¦¾à¦•à¦¾à¦Ÿà¦¾, à¦–à¦¾à¦¬à¦¾à¦°, à¦¸à§‡à¦²à¦¾à¦®à¦¿" },
-  { key: "funeral",   icon: "ðŸ•Œ", label: "à¦œà¦¾à¦¨à¦¾à¦œà¦¾ / à¦•à§à¦²à¦–à¦¾à¦¨à¦¿",hint: "à¦¹à¦ à¦¾à§Ž à¦–à¦°à¦š" },
-  { key: "hajj",      icon: "ðŸ•‹", label: "à¦¹à¦œà§à¦œ / à¦“à¦®à¦°à¦¾",     hint: "à¦¯à¦¾à¦¤à§à¦°à¦¾à¦° à¦®à§‹à¦Ÿ à¦–à¦°à¦š" },
-  { key: "education", icon: "ðŸ“š", label: "à¦ªà¦¡à¦¼à¦¾à¦¶à§‹à¦¨à¦¾à¦° à¦–à¦°à¦š",   hint: "à¦­à¦°à§à¦¤à¦¿, à¦¬à§‡à¦¤à¦¨, à¦¬à¦‡" },
-  { key: "other",     icon: "ðŸ“¦", label: "à¦…à¦¨à§à¦¯ à¦‰à¦ªà¦²à¦•à§à¦·",     hint: "à¦¨à¦¿à¦œà§‡ à¦²à¦¿à¦–à§à¦¨" },
+  { key: "wedding",   icon: "💍", label: "বিয়ে",           hint: "মোট অনুষ্ঠানের খরচ" },
+  { key: "dowry",     icon: "💰", label: "যৌতুক / উপহার",  hint: "বরপক্ষের দাবি বা পরিবারের উপহার" },
+  { key: "eid",       icon: "🌙", label: "ঈদ উৎসব",        hint: "কেনাকাটা, খাবার, সেলামি" },
+  { key: "funeral",   icon: "🕌", label: "জানাজা / কুলখানি",hint: "হঠাৎ খরচ" },
+  { key: "hajj",      icon: "🕋", label: "হজ্জ / ওমরা",     hint: "যাত্রার মোট খরচ" },
+  { key: "education", icon: "📚", label: "পড়াশোনার খরচ",   hint: "ভর্তি, বেতন, বই" },
+  { key: "other",     icon: "📦", label: "অন্য উপলক্ষ",     hint: "নিজে লিখুন" },
 ];
 
 // Suggested cost ranges per event type (in BDT)
@@ -28,9 +28,9 @@ const EVENT_SUGGESTIONS: Record<string, number[]> = {
 const MONTH_PRESETS = [1, 3, 6, 12, 18, 24];
 
 function formatBDT(n: number) {
-  if (n >= 100000) return `à§³${(n / 100000).toFixed(1)} à¦²à¦•à§à¦·`;
-  if (n >= 1000)   return `à§³${(n).toLocaleString("bn-BD")}`;
-  return `à§³${n}`;
+  if (n >= 100000) return `৳${(n / 100000).toFixed(1)} লক্ষ`;
+  if (n >= 1000)   return `৳${(n).toLocaleString("bn-BD")}`;
+  return `৳${n}`;
 }
 
 // Rough average rate: 15% flat (informal/MFI) for borrowing cost estimate
@@ -57,25 +57,25 @@ export default function EventsPlannerPage() {
   const eventLabel   = EVENT_TYPES.find(e => e.key === eventType)?.label ?? "";
 
   const resultText = monthlySave
-    ? `à¦†à¦ªà¦¨à¦¾à¦° ${eventLabel} à¦à¦° à¦œà¦¨à§à¦¯ à¦ªà§à¦°à¦¯à¦¼à§‹à¦œà¦¨ ${formatBDT(gap!)}à¥¤ à¦ªà§à¦°à¦¤à¦¿ à¦®à¦¾à¦¸à§‡ ${formatBDT(monthlySave)} à¦¸à¦žà§à¦šà¦¯à¦¼ à¦•à¦°à¦²à§‡ ${finalMonths} à¦®à¦¾à¦¸à§‡ à¦ªà§Œà¦à¦›à¦¾à¦¬à§‡à¦¨à¥¤`
+    ? `আপনার ${eventLabel} এর জন্য প্রয়োজন ${formatBDT(gap!)}। প্রতি মাসে ${formatBDT(monthlySave)} সঞ্চয় করলে ${finalMonths} মাসে পৌঁছাবেন।`
     : "";
 
   return (
     <>
       <div className="section-header">
-        <h1 className="section-title">ðŸ’ à¦‰à§Žà¦¸à¦¬ à¦ªà¦°à¦¿à¦•à¦²à§à¦ªà¦¨à¦¾</h1>
-        <p className="section-subtitle">à¦¬à¦¿à¦¯à¦¼à§‡, à¦ˆà¦¦ à¦¬à¦¾ à¦¯à§‡à¦•à§‹à¦¨à§‹ à¦‰à¦ªà¦²à¦•à§à¦·à§‡à¦° à¦–à¦°à¦š à¦ªà¦°à¦¿à¦•à¦²à§à¦ªà¦¨à¦¾ à¦•à¦°à§à¦¨</p>
+        <h1 className="section-title">💍 উৎসব পরিকল্পনা</h1>
+        <p className="section-subtitle">বিয়ে, ঈদ বা যেকোনো উপলক্ষের খরচ পরিকল্পনা করুন</p>
       </div>
 
       <div className="p-4">
-        {/* Step 1 â€” Event type */}
+        {/* Step 1 — Event type */}
         {step === 1 && (
           <div className="card" style={{ padding: "var(--space-4)" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "var(--space-4)" }}>
-              <h2 style={{ fontSize: "18px", fontWeight: "700" }}>à¦•à§€ à¦‰à¦ªà¦²à¦•à§à¦·à§‡?</h2>
-              <AudioAssist text="à¦•à§‹à¦¨ à¦‰à¦ªà¦²à¦•à§à¦·à§‡à¦° à¦œà¦¨à§à¦¯ à¦ªà¦°à¦¿à¦•à¦²à§à¦ªà¦¨à¦¾ à¦•à¦°à¦›à§‡à¦¨? à¦¬à§‡à¦›à§‡ à¦¨à¦¿à¦¨à¥¤" />
+              <h2 style={{ fontSize: "18px", fontWeight: "700" }}>কী উপলক্ষে?</h2>
+              <AudioAssist text="কোন উপলক্ষের জন্য পরিকল্পনা করছেন? বেছে নিন।" />
             </div>
-            <div className="category-grid" role="group" aria-label="à¦‰à¦ªà¦²à¦•à§à¦· à¦¬à§‡à¦›à§‡ à¦¨à¦¿à¦¨">
+            <div className="category-grid" role="group" aria-label="উপলক্ষ বেছে নিন">
               {EVENT_TYPES.map(e => (
                 <button
                   key={e.key}
@@ -91,17 +91,17 @@ export default function EventsPlannerPage() {
           </div>
         )}
 
-        {/* Step 2 â€” Cost estimate */}
+        {/* Step 2 — Cost estimate */}
         {step === 2 && (
           <div className="card" style={{ padding: "var(--space-4)" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "4px" }}>
-              <h2 style={{ fontSize: "18px", fontWeight: "700" }}>à¦†à¦¨à§à¦®à¦¾à¦¨à¦¿à¦• à¦•à¦¤ à¦–à¦°à¦š à¦¹à¦¬à§‡?</h2>
-              <AudioAssist text="à¦à¦‡ à¦‰à¦ªà¦²à¦•à§à¦·à§‡ à¦†à¦¨à§à¦®à¦¾à¦¨à¦¿à¦• à¦•à¦¤ à¦Ÿà¦¾à¦•à¦¾ à¦–à¦°à¦š à¦¹à¦¬à§‡ à¦¬à¦²à§‡ à¦®à¦¨à§‡ à¦•à¦°à§‡à¦¨?" />
+              <h2 style={{ fontSize: "18px", fontWeight: "700" }}>আনুমানিক কত খরচ হবে?</h2>
+              <AudioAssist text="এই উপলক্ষে আনুমানিক কত টাকা খরচ হবে বলে মনে করেন?" />
             </div>
             <p style={{ fontSize: "13px", color: "var(--color-text-secondary)", marginBottom: "16px" }}>
               {EVENT_TYPES.find(e => e.key === eventType)?.hint}
             </p>
-            <div className="preset-btn-row" role="group" aria-label="à¦–à¦°à¦š à¦¬à§‡à¦›à§‡ à¦¨à¦¿à¦¨" style={{ flexWrap: "wrap" }}>
+            <div className="preset-btn-row" role="group" aria-label="খরচ বেছে নিন" style={{ flexWrap: "wrap" }}>
               {suggestions.map(s => (
                 <button
                   key={s}
@@ -117,28 +117,28 @@ export default function EventsPlannerPage() {
             <input
               type="number"
               className="input-field"
-              placeholder="à¦¨à¦¿à¦œà§‡ à¦²à¦¿à¦–à§à¦¨ (à¦Ÿà¦¾à¦•à¦¾à¦¯à¦¼)"
+              placeholder="নিজে লিখুন (টাকায়)"
               value={customCost}
               onChange={e => { setCustomCost(e.target.value); setCost(null); }}
               style={{ marginTop: "12px", fontSize: "18px" }}
             />
             <div style={{ display: "flex", gap: "8px", marginTop: "16px" }}>
-              <button className="btn btn--outline" onClick={() => setStep(1)} style={{ flex: 1, justifyContent: "center" }}>â† à¦ªà§‡à¦›à¦¨à§‡</button>
+              <button className="btn btn--outline" onClick={() => setStep(1)} style={{ flex: 1, justifyContent: "center" }}>← পেছনে</button>
               <button
                 className="btn btn--primary" style={{ flex: 2, justifyContent: "center" }}
                 onClick={() => (finalCost ? setStep(3) : null)}
                 disabled={!finalCost}
-              >à¦ªà¦°à§‡à¦° à¦§à¦¾à¦ª â†’</button>
+              >পরের ধাপ →</button>
             </div>
           </div>
         )}
 
-        {/* Step 3 â€” Current savings */}
+        {/* Step 3 — Current savings */}
         {step === 3 && (
           <div className="card" style={{ padding: "var(--space-4)" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "var(--space-4)" }}>
-              <h2 style={{ fontSize: "18px", fontWeight: "700" }}>à¦à¦–à¦¨ à¦•à¦¤ à¦Ÿà¦¾à¦•à¦¾ à¦†à¦›à§‡?</h2>
-              <AudioAssist text="à¦à¦‡ à¦•à¦¾à¦œà§‡à¦° à¦œà¦¨à§à¦¯ à¦à¦–à¦¨ à¦†à¦ªà¦¨à¦¾à¦° à¦•à¦¾à¦›à§‡ à¦•à¦¤ à¦Ÿà¦¾à¦•à¦¾ à¦†à¦›à§‡?" />
+              <h2 style={{ fontSize: "18px", fontWeight: "700" }}>এখন কত টাকা আছে?</h2>
+              <AudioAssist text="এই কাজের জন্য এখন আপনার কাছে কত টাকা আছে?" />
             </div>
             <div className="preset-btn-row" role="group" style={{ flexWrap: "wrap" }}>
               {[0, 5000, 10000, 20000, 50000].map(s => (
@@ -149,30 +149,30 @@ export default function EventsPlannerPage() {
                   onClick={() => setSavings(s)}
                   style={{ minWidth: "70px", fontSize: "14px", padding: "10px 12px" }}
                 >
-                  {s === 0 ? "à¦•à¦¿à¦›à§ à¦¨à§‡à¦‡" : formatBDT(s)}
+                  {s === 0 ? "কিছু নেই" : formatBDT(s)}
                 </button>
               ))}
             </div>
             <input
               type="number"
               className="input-field"
-              placeholder="à¦¨à¦¿à¦œà§‡ à¦²à¦¿à¦–à§à¦¨"
+              placeholder="নিজে লিখুন"
               onChange={e => setSavings(parseFloat(e.target.value) || 0)}
               style={{ marginTop: "12px", fontSize: "18px" }}
             />
             <div style={{ display: "flex", gap: "8px", marginTop: "16px" }}>
-              <button className="btn btn--outline" onClick={() => setStep(2)} style={{ flex: 1, justifyContent: "center" }}>â† à¦ªà§‡à¦›à¦¨à§‡</button>
-              <button className="btn btn--primary" style={{ flex: 2, justifyContent: "center" }} onClick={() => setStep(4)}>à¦ªà¦°à§‡à¦° à¦§à¦¾à¦ª â†’</button>
+              <button className="btn btn--outline" onClick={() => setStep(2)} style={{ flex: 1, justifyContent: "center" }}>← পেছনে</button>
+              <button className="btn btn--primary" style={{ flex: 2, justifyContent: "center" }} onClick={() => setStep(4)}>পরের ধাপ →</button>
             </div>
           </div>
         )}
 
-        {/* Step 4 â€” Timeline */}
+        {/* Step 4 — Timeline */}
         {step === 4 && (
           <div className="card" style={{ padding: "var(--space-4)" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "var(--space-4)" }}>
-              <h2 style={{ fontSize: "18px", fontWeight: "700" }}>à¦•à¦¤ à¦®à¦¾à¦¸ à¦¬à¦¾à¦•à¦¿ à¦†à¦›à§‡?</h2>
-              <AudioAssist text="à¦à¦‡ à¦‰à¦ªà¦²à¦•à§à¦· à¦†à¦¸à¦¤à§‡ à¦†à¦° à¦•à¦¤ à¦®à¦¾à¦¸ à¦¬à¦¾à¦•à¦¿?" />
+              <h2 style={{ fontSize: "18px", fontWeight: "700" }}>কত মাস বাকি আছে?</h2>
+              <AudioAssist text="এই উপলক্ষ আসতে আর কত মাস বাকি?" />
             </div>
             <div className="preset-btn-row" role="group" style={{ flexWrap: "wrap" }}>
               {MONTH_PRESETS.map(m => (
@@ -183,37 +183,37 @@ export default function EventsPlannerPage() {
                   onClick={() => { setMonths(m); setCustomMo(""); }}
                   style={{ minWidth: "70px", fontSize: "15px", padding: "10px 12px" }}
                 >
-                  {m} à¦®à¦¾à¦¸
+                  {m} মাস
                 </button>
               ))}
             </div>
             <input
               type="number"
               className="input-field"
-              placeholder="à¦¨à¦¿à¦œà§‡ à¦²à¦¿à¦–à§à¦¨ (à¦®à¦¾à¦¸)"
+              placeholder="নিজে লিখুন (মাস)"
               value={customMo}
               onChange={e => { setCustomMo(e.target.value); setMonths(null); }}
               style={{ marginTop: "12px", fontSize: "18px" }}
             />
             <div style={{ display: "flex", gap: "8px", marginTop: "16px" }}>
-              <button className="btn btn--outline" onClick={() => setStep(3)} style={{ flex: 1, justifyContent: "center" }}>â† à¦ªà§‡à¦›à¦¨à§‡</button>
+              <button className="btn btn--outline" onClick={() => setStep(3)} style={{ flex: 1, justifyContent: "center" }}>← পেছনে</button>
               <button
                 className="btn btn--primary" style={{ flex: 2, justifyContent: "center" }}
                 onClick={() => (finalMonths ? setStep(5) : null)}
                 disabled={!finalMonths}
-              >à¦«à¦²à¦¾à¦«à¦² à¦¦à§‡à¦–à§à¦¨ â†’</button>
+              >ফলাফল দেখুন →</button>
             </div>
           </div>
         )}
 
-        {/* Step 5 â€” Result */}
+        {/* Step 5 — Result */}
         {step === 5 && finalCost && finalMonths && (
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             {/* Hero */}
             <div className="card" style={{ padding: "var(--space-4)", background: "var(--color-primary)", color: "white", borderRadius: "16px" }}>
-              <p style={{ fontSize: "14px", opacity: 0.85, marginBottom: "6px" }}>{eventLabel} à¦ªà¦°à¦¿à¦•à¦²à§à¦ªà¦¨à¦¾</p>
+              <p style={{ fontSize: "14px", opacity: 0.85, marginBottom: "6px" }}>{eventLabel} পরিকল্পনা</p>
               <p style={{ fontSize: "32px", fontWeight: "800" }}>{formatBDT(finalCost)}</p>
-              <p style={{ fontSize: "14px", opacity: 0.85, marginTop: "4px" }}>{finalMonths} à¦®à¦¾à¦¸à§‡à¦° à¦®à¦§à§à¦¯à§‡</p>
+              <p style={{ fontSize: "14px", opacity: 0.85, marginTop: "4px" }}>{finalMonths} মাসের মধ্যে</p>
             </div>
 
             {/* Gap */}
@@ -221,50 +221,50 @@ export default function EventsPlannerPage() {
               <div className="card" style={{ padding: "var(--space-4)" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
                   <div>
-                    <p style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>à¦†à¦°à¦“ à¦•à¦¤ à¦Ÿà¦¾à¦•à¦¾ à¦²à¦¾à¦—à¦¬à§‡</p>
+                    <p style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>আরও কত টাকা লাগবে</p>
                     <p style={{ fontSize: "26px", fontWeight: "800", color: "var(--color-danger, #dc2626)" }}>{formatBDT(gap)}</p>
                     {monthlySave && (
                       <p style={{ fontSize: "14px", marginTop: "8px", color: "var(--color-primary)", fontWeight: "600" }}>
-                        â†’ à¦ªà§à¦°à¦¤à¦¿ à¦®à¦¾à¦¸à§‡ {formatBDT(monthlySave)} à¦œà¦®à¦¾à¦²à§‡ à¦¹à¦¬à§‡
+                        → প্রতি মাসে {formatBDT(monthlySave)} জমালে হবে
                       </p>
                     )}
                     {dailySave && (
                       <p style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>
-                        (à¦ªà§à¦°à¦¤à¦¿à¦¦à¦¿à¦¨ à¦®à¦¾à¦¤à§à¦° {formatBDT(dailySave)})
+                        (প্রতিদিন মাত্র {formatBDT(dailySave)})
                       </p>
                     )}
                   </div>
-                  <AudioAssist text={resultText} label="à¦¶à§à¦¨à§à¦¨" />
+                  <AudioAssist text={resultText} label="শুনুন" />
                 </div>
               </div>
             )}
 
             {gap === 0 && (
               <div className="card" style={{ padding: "var(--space-4)", background: "var(--color-success-light, #e6f4ea)" }}>
-                <p style={{ fontWeight: "700", fontSize: "18px", color: "var(--color-primary)" }}>âœ… à¦†à¦ªà¦¨à¦¾à¦° à¦•à¦¾à¦›à§‡ à¦¯à¦¥à§‡à¦·à§à¦Ÿ à¦†à¦›à§‡!</p>
-                <p style={{ fontSize: "14px", marginTop: "4px" }}>à¦à¦–à¦¨à¦•à¦¾à¦° à¦¸à¦žà§à¦šà¦¯à¦¼ à¦¦à¦¿à¦¯à¦¼à§‡à¦‡ à¦à¦‡ à¦‰à¦ªà¦²à¦•à§à¦· à¦¸à¦¾à¦®à¦²à¦¾à¦¨à§‹ à¦¸à¦®à§à¦­à¦¬à¥¤</p>
+                <p style={{ fontWeight: "700", fontSize: "18px", color: "var(--color-primary)" }}>✅ আপনার কাছে যথেষ্ট আছে!</p>
+                <p style={{ fontSize: "14px", marginTop: "4px" }}>এখনকার সঞ্চয় দিয়েই এই উপলক্ষ সামলানো সম্ভব।</p>
               </div>
             )}
 
             {/* Borrowing cost warning */}
             {gap && gap > 0 && borrowCost && (
               <div className="card" style={{ padding: "var(--space-4)", borderLeft: "4px solid var(--color-warning, #d97706)" }}>
-                <p style={{ fontWeight: "600", marginBottom: "4px" }}>âš ï¸ à¦‹à¦£ à¦¨à¦¿à¦²à§‡ à¦•à¦¤ à¦ªà¦¡à¦¼à¦¬à§‡?</p>
+                <p style={{ fontWeight: "600", marginBottom: "4px" }}>⚠️ ঋণ নিলে কত পড়বে?</p>
                 <p style={{ fontSize: "14px" }}>
-                  {formatBDT(gap)} à¦§à¦¾à¦° à¦•à¦°à¦²à§‡ à¦†à¦¨à§à¦®à¦¾à¦¨à¦¿à¦• à¦®à§‹à¦Ÿ à¦«à§‡à¦°à¦¤ à¦¦à¦¿à¦¤à§‡ à¦¹à¦¤à§‡ à¦ªà¦¾à¦°à§‡ <strong>{formatBDT(borrowCost)}</strong> (à¦…à¦¨à¦¾à¦¨à§à¦·à§à¦ à¦¾à¦¨à¦¿à¦• à¦¹à¦¾à¦°à§‡ ~à§§à§«%)à¥¤
+                  {formatBDT(gap)} ধার করলে আনুমানিক মোট ফেরত দিতে হতে পারে <strong>{formatBDT(borrowCost)}</strong> (অনানুষ্ঠানিক হারে ~১৫%)।
                 </p>
                 <Link href="/check-loan" className="btn btn--outline btn--sm" style={{ marginTop: "10px", display: "inline-flex" }}>
-                  ðŸ” à¦‹à¦£à§‡à¦° à¦ªà§à¦°à¦•à§ƒà¦¤ à¦–à¦°à¦š à¦ªà¦°à§€à¦•à§à¦·à¦¾ à¦•à¦°à§à¦¨
+                  🔍 ঋণের প্রকৃত খরচ পরীক্ষা করুন
                 </Link>
               </div>
             )}
 
             <button className="btn btn--ghost" style={{ justifyContent: "center" }} onClick={() => { setStep(1); setEventType(""); setCost(null); setSavings(0); setMonths(null); setCustomCost(""); setCustomMo(""); }}>
-              ðŸ”„ à¦¨à¦¤à§à¦¨ à¦ªà¦°à¦¿à¦•à¦²à§à¦ªà¦¨à¦¾ à¦•à¦°à§à¦¨
+              🔄 নতুন পরিকল্পনা করুন
             </button>
 
             <div className="disclaimer" role="note">
-              à¦¸à¦•à¦² à¦¹à¦¿à¦¸à¦¾à¦¬ à¦†à¦¨à§à¦®à¦¾à¦¨à¦¿à¦•à¥¤ à¦‹à¦£à§‡à¦° à¦¹à¦¾à¦° à¦ªà§à¦°à¦¤à¦¿à¦·à§à¦ à¦¾à¦¨ à¦“ à¦¶à¦°à§à¦¤ à¦…à¦¨à§à¦¯à¦¾à¦¯à¦¼à§€ à¦­à¦¿à¦¨à§à¦¨ à¦¹à¦¯à¦¼à¥¤ à¦à¦Ÿà¦¿ à¦¤à¦¥à§à¦¯ à¦®à¦¾à¦¤à§à¦°, à¦†à¦°à§à¦¥à¦¿à¦• à¦ªà¦°à¦¾à¦®à¦°à§à¦¶ à¦¨à¦¯à¦¼à¥¤
+              সকল হিসাব আনুমানিক। ঋণের হার প্রতিষ্ঠান ও শর্ত অনুযায়ী ভিন্ন হয়। এটি তথ্য মাত্র, আর্থিক পরামর্শ নয়।
             </div>
           </div>
         )}
