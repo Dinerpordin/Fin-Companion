@@ -1,24 +1,41 @@
 "use client";
 
 import { useState } from "react";
+import { 
+  User, 
+  UserCheck, 
+  Heart, 
+  Leaf, 
+  Home, 
+  GraduationCap, 
+  Building2, 
+  Check, 
+  RotateCcw,
+  BookOpen,
+  Scale,
+  CalendarRange,
+  ChevronLeft,
+  ChevronRight,
+  Info
+} from "lucide-react";
 import AudioAssist from "../components/AudioAssist";
 
 // Eligibility rules mapped to programs
 const AGE_GROUPS = [
-  { key: "child",  icon: "🧒", label: "১৮ বছরের নিচে" },
-  { key: "adult",  icon: "👨", label: "১৮–৬৪ বছর"      },
-  { key: "senior", icon: "👴", label: "৬৫ বছর বা বেশি" },
+  { key: "child",  icon: User, label: "১৮ বছরের নিচে" },
+  { key: "adult",  icon: User, label: "১৮–৬৪ বছর"      },
+  { key: "senior", icon: UserCheck, label: "৬৫ বছর বা বেশি" },
 ];
 
 const PERSON_TYPES = [
-  { key: "widow",      icon: "👩‍🦳", label: "বিধবা / স্বামী পরিত্যক্তা" },
-  { key: "disabled",   icon: "♿",   label: "প্রতিবন্ধী"         },
-  { key: "farmer",     icon: "🌾",   label: "কৃষক"               },
-  { key: "single_mom", icon: "👩‍👧",  label: "একা মা"             },
-  { key: "elderly",    icon: "👴",   label: "বয়স্ক ব্যক্তি"      },
-  { key: "poor",       icon: "🏠",   label: "অতি দরিদ্র পরিবার"  },
-  { key: "student",    icon: "🎓",   label: "শিক্ষার্থী"          },
-  { key: "other",      icon: "👤",   label: "অন্য"               },
+  { key: "widow",      icon: User, label: "বিধবা / স্বামী পরিত্যক্তা" },
+  { key: "disabled",   icon: Heart, label: "প্রতিবন্ধী"         },
+  { key: "farmer",     icon: Leaf, label: "কৃষক"               },
+  { key: "single_mom", icon: User, label: "একা মা"             },
+  { key: "elderly",    icon: UserCheck, label: "বয়স্ক ব্যক্তি"      },
+  { key: "poor",       icon: Home, label: "অতি দরিদ্র পরিবার"  },
+  { key: "student",    icon: GraduationCap, label: "শিক্ষার্থী"          },
+  { key: "other",      icon: User, label: "অন্য"               },
 ];
 
 const INCOME_BANDS = [
@@ -29,7 +46,7 @@ const INCOME_BANDS = [
 
 type Program = {
   name: string;
-  icon: string;
+  icon: any;
   benefit: string;
   how: string;
   docs: string;
@@ -43,7 +60,7 @@ function getPrograms(age: string, type: string, income: string): Program[] {
   if (age === "senior" && income !== "medium") {
     programs.push({
       name: "বয়স্ক ভাতা",
-      icon: "👴",
+      icon: UserCheck,
       benefit: "মাসে ৳৬০০",
       how: "স্থানীয় ইউনিয়ন পরিষদ বা পৌরসভায় আবেদন করুন",
       docs: "NID, জন্ম নিবন্ধন, ছবি, দরিদ্রতার প্রমাণ",
@@ -55,7 +72,7 @@ function getPrograms(age: string, type: string, income: string): Program[] {
   if (type === "widow" && income !== "medium") {
     programs.push({
       name: "বিধবা ও স্বামী পরিত্যক্তা ভাতা",
-      icon: "👩",
+      icon: User,
       benefit: "মাসে ৳৫৫০",
       how: "ইউনিয়ন পরিষদ বা সমাজসেবা অফিসে আবেদন",
       docs: "NID, বিবাহ/তালাকের সনদ, ছবি, দরিদ্রতার প্রমাণ",
@@ -67,7 +84,7 @@ function getPrograms(age: string, type: string, income: string): Program[] {
   if (type === "disabled") {
     programs.push({
       name: "প্রতিবন্ধী ভাতা",
-      icon: "♿",
+      icon: Heart,
       benefit: "মাসে ৳৮৫০",
       how: "উপজেলা সমাজসেবা অফিসে প্রতিবন্ধিতা সনদসহ আবেদন",
       docs: "NID, প্রতিবন্ধিতা সনদ, ডাক্তারি প্রতিবেদন, ছবি",
@@ -79,7 +96,7 @@ function getPrograms(age: string, type: string, income: string): Program[] {
   if ((type === "widow" || type === "single_mom" || type === "poor") && income === "zero") {
     programs.push({
       name: "ভালনারেবল গ্রুপ ডেভেলপমেন্ট (VGD)",
-      icon: "🌾",
+      icon: Leaf,
       benefit: "মাসে ৩০ কেজি চাল + প্রশিক্ষণ সুবিধা",
       how: "ইউনিয়ন পরিষদ বা পৌরসভায় আবেদন (তালিকা ২ বছর পর পর নবায়ন হয়)",
       docs: "NID, ছবি, পারিবারিক তথ্য",
@@ -91,7 +108,7 @@ function getPrograms(age: string, type: string, income: string): Program[] {
   if (type === "student" && income !== "medium") {
     programs.push({
       name: "প্রাথমিক ও মাধ্যমিক উপবৃত্তি",
-      icon: "📚",
+      icon: GraduationCap,
       benefit: "মাসিক ৳৩০০–৳৭৫০ (শ্রেণি অনুযায়ী)",
       how: "বিদ্যালয় কর্তৃপক্ষের মাধ্যমে আবেদন",
       docs: "জন্ম নিবন্ধন, অভিভাবকের NID, ব্যাংক হিসাব নম্বর",
@@ -103,7 +120,7 @@ function getPrograms(age: string, type: string, income: string): Program[] {
   if (type === "farmer") {
     programs.push({
       name: "কৃষি প্রণোদনা / উপকরণ সহায়তা",
-      icon: "🌿",
+      icon: Leaf,
       benefit: "বীজ, সার, কীটনাশক বিনামূল্যে বা ভর্তুকিতে",
       how: "উপজেলা কৃষি অফিসে কৃষক নিবন্ধন করুন",
       docs: "NID, জমির কাগজ বা বর্গাচাষির প্রমাণ",
@@ -115,7 +132,7 @@ function getPrograms(age: string, type: string, income: string): Program[] {
   if ((income === "zero" || income === "low") && programs.length === 0) {
     programs.push({
       name: "সামাজিক নিরাপত্তা তথ্য",
-      icon: "🏛️",
+      icon: Building2,
       benefit: "আপনার উপজেলায় কী সুবিধা আছে জানুন",
       how: "উপজেলা সমাজসেবা অফিসে যোগাযোগ করুন",
       docs: "NID নিয়ে যান",
@@ -142,132 +159,155 @@ export default function EntitlementsPage() {
   return (
     <>
       <div className="section-header">
-        <h1 className="section-title">🏛️ সরকারি সাহায্য</h1>
+        <h1 className="section-title flex items-center justify-center gap-2">
+          <Building2 className="w-8 h-8 text-primary" />
+          <span>সরকারি সাহায্য</span>
+        </h1>
         <p className="section-subtitle">আপনি কি সরকারি ভাতা বা সহায়তা পাওয়ার যোগ্য?</p>
       </div>
 
-      <div className="p-4">
+      <div className="p-4 max-w-xl mx-auto flex flex-col gap-4">
 
         {/* Step 1 — Age */}
         {step === 1 && (
-          <div className="card" style={{ padding: "var(--space-4)" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--space-4)" }}>
-              <h2 style={{ fontSize: "18px", fontWeight: "700" }}>আপনার বয়স কত?</h2>
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-bold text-slate-800">আপনার বয়স কত?</h2>
               <AudioAssist text="আপনার বয়স কত? নিচের বোতাম থেকে বেছে নিন।" />
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              {AGE_GROUPS.map(a => (
-                <button
-                  key={a.key}
-                  onClick={() => { setAge(a.key); setStep(2); }}
-                  style={{
-                    display: "flex", alignItems: "center", gap: "14px",
-                    padding: "16px 18px", borderRadius: "12px", border: "2px solid var(--color-border)",
-                    background: "var(--color-surface)", cursor: "pointer",
-                    fontSize: "16px", fontWeight: "600", fontFamily: "var(--font-body)",
-                    textAlign: "left",
-                  }}
-                >
-                  <span style={{ fontSize: "28px" }}>{a.icon}</span>
-                  <span>{a.label}</span>
-                </button>
-              ))}
+            <div className="flex flex-col gap-3">
+              {AGE_GROUPS.map(a => {
+                const AgeIcon = a.icon;
+                return (
+                  <button
+                    key={a.key}
+                    onClick={() => { setAge(a.key); setStep(2); }}
+                    className="flex items-center gap-4 p-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer text-slate-700 font-bold transition-all"
+                  >
+                    <div className="p-2 bg-slate-50 text-slate-500 rounded-lg">
+                      <AgeIcon className="w-6 h-6" />
+                    </div>
+                    <span>{a.label}</span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         )}
 
         {/* Step 2 — Person type */}
         {step === 2 && (
-          <div className="card" style={{ padding: "var(--space-4)" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--space-4)" }}>
-              <h2 style={{ fontSize: "18px", fontWeight: "700" }}>আপনি কে?</h2>
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-bold text-slate-800">আপনি কে?</h2>
               <AudioAssist text="আপনি কে? নিচের বিকল্পগুলো থেকে বেছে নিন।" />
             </div>
-            <div className="category-grid" role="group">
-              {PERSON_TYPES.map(p => (
-                <button
-                  key={p.key}
-                  className={`category-tile${type === p.key ? " active" : ""}`}
-                  aria-pressed={type === p.key}
-                  onClick={() => { setType(p.key); setStep(3); }}
-                >
-                  <span className="category-tile__icon">{p.icon}</span>
-                  <span className="category-tile__label">{p.label}</span>
-                </button>
-              ))}
+            <div className="grid grid-cols-2 gap-3" role="group">
+              {PERSON_TYPES.map(p => {
+                const TypeIcon = p.icon;
+                return (
+                  <button
+                    key={p.key}
+                    className={`flex flex-col items-center gap-2 p-4 rounded-xl border font-semibold text-sm cursor-pointer transition-all ${
+                      type === p.key 
+                        ? "bg-teal-50 border-primary text-primary" 
+                        : "bg-slate-50 border-slate-100 text-slate-700 hover:bg-slate-100"
+                    }`}
+                    onClick={() => { setType(p.key); setStep(3); }}
+                  >
+                    <TypeIcon className={`w-6 h-6 ${type === p.key ? "text-primary" : "text-slate-500"}`} />
+                    <span>{p.label}</span>
+                  </button>
+                );
+              })}
             </div>
-            <button className="btn btn--outline" onClick={() => setStep(1)} style={{ marginTop: "16px", justifyContent: "center" }}>← পেছনে</button>
+            <button 
+              className="mt-4 w-full py-2 px-4 rounded-lg border-2 border-slate-200 text-slate-700 font-bold text-sm flex items-center justify-center gap-1.5 cursor-pointer hover:bg-slate-50 transition-all" 
+              onClick={() => setStep(1)}
+            >
+              <ChevronLeft className="w-4 h-4" />
+              <span>পেছনে</span>
+            </button>
           </div>
         )}
 
         {/* Step 3 — Income */}
         {step === 3 && (
-          <div className="card" style={{ padding: "var(--space-4)" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--space-4)" }}>
-              <h2 style={{ fontSize: "18px", fontWeight: "700" }}>মাসিক আয় কত?</h2>
+          <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-bold text-slate-800">মাসিক আয় কত?</h2>
               <AudioAssist text="আপনার পরিবারের মাসিক আয় কত?" />
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            <div className="flex flex-col gap-3">
               {INCOME_BANDS.map(ib => (
                 <button
                   key={ib.key}
                   onClick={() => runCheck(ib.key)}
-                  style={{
-                    padding: "16px 18px", borderRadius: "12px", border: "2px solid var(--color-border)",
-                    background: "var(--color-surface)", cursor: "pointer",
-                    fontSize: "16px", fontWeight: "600", fontFamily: "var(--font-body)",
-                    textAlign: "left",
-                  }}
+                  className="w-full p-4 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 cursor-pointer text-slate-700 font-bold text-sm text-left transition-all"
                 >
                   {ib.label}
                 </button>
               ))}
             </div>
-            <button className="btn btn--outline" onClick={() => setStep(2)} style={{ marginTop: "16px", justifyContent: "center" }}>← পেছনে</button>
+            <button 
+              className="mt-4 w-full py-2 px-4 rounded-lg border-2 border-slate-200 text-slate-700 font-bold text-sm flex items-center justify-center gap-1.5 cursor-pointer hover:bg-slate-50 transition-all" 
+              onClick={() => setStep(2)}
+            >
+              <ChevronLeft className="w-4 h-4" />
+              <span>পেছনে</span>
+            </button>
           </div>
         )}
 
         {/* Step 4 — Results */}
         {step === 4 && results && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-            <p style={{ fontSize: "15px", fontWeight: "700" }}>
+          <div className="flex flex-col gap-4">
+            <p className="text-sm font-bold text-slate-800">
               {results.length > 0
                 ? `আপনি ${results.length}টি সরকারি সুবিধার জন্য যোগ্য হতে পারেন:`
                 : "আপনার দেওয়া তথ্যে কোনো নির্দিষ্ট ভাতার যোগ্যতা পাওয়া যায়নি।"}
             </p>
 
-            {results.map((prog, i) => (
-              <div key={i} className="card" style={{ padding: "16px" }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
-                  <div style={{ flex: 1 }}>
-                    <p style={{ fontWeight: "700", fontSize: "16px", marginBottom: "4px" }}>
-                      {prog.icon} {prog.name}
-                    </p>
-                    <p style={{ fontSize: "18px", fontWeight: "800", color: "var(--color-primary)", marginBottom: "8px" }}>
-                      {prog.benefit}
-                    </p>
-                    <p style={{ fontSize: "13px", color: "var(--color-text-secondary)", marginBottom: "4px" }}>
-                      <strong>কীভাবে পাবেন:</strong> {prog.how}
-                    </p>
-                    <p style={{ fontSize: "13px", color: "var(--color-text-secondary)" }}>
-                      <strong>প্রয়োজনীয় কাগজ:</strong> {prog.docs}
-                    </p>
+            {results.map((prog, i) => {
+              const ProgIcon = prog.icon;
+              return (
+                <div key={i} className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+                  <div className="flex justify-between items-start gap-4">
+                    <div className="flex-1">
+                      <p className="font-bold text-slate-800 text-sm mb-1 flex items-center gap-2">
+                        <ProgIcon className="w-5 h-5 text-primary shrink-0" />
+                        <span>{prog.name}</span>
+                      </p>
+                      <p className="text-lg font-extrabold text-primary mb-3">
+                        {prog.benefit}
+                      </p>
+                      <p className="text-xs text-slate-600 mb-1 leading-relaxed">
+                        <strong>কীভাবে পাবেন:</strong> {prog.how}
+                      </p>
+                      <p className="text-xs text-slate-600 leading-relaxed">
+                        <strong>প্রয়োজনীয় কাগজ:</strong> {prog.docs}
+                      </p>
+                    </div>
+                    <AudioAssist text={prog.audio} size="sm" />
                   </div>
-                  <AudioAssist text={prog.audio} size="sm" />
                 </div>
-              </div>
-            ))}
+              );
+            })}
 
-            <div className="privacy-notice" role="note">
-              <span className="privacy-notice__icon">ℹ️</span>
+            <div className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-xs text-slate-600 flex items-center gap-2" role="note">
+              <Info className="w-4 h-4 text-primary shrink-0" />
               <span>যোগ্যতা নির্ভর করে স্থানীয় বরাদ্দ ও তালিকায় স্থান পাওয়ার উপর। সঠিক তথ্যের জন্য সরাসরি সমাজসেবা অফিসে যোগাযোগ করুন।</span>
             </div>
 
-            <button className="btn btn--outline" style={{ justifyContent: "center" }} onClick={() => { setStep(1); setAge(""); setType(""); setIncome(""); setResults(null); }}>
-              🔄 আবার চেক করুন
+            <button 
+              className="py-2.5 px-4 rounded-lg border-2 border-primary text-primary font-bold text-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer hover:bg-teal-50/50" 
+              onClick={() => { setStep(1); setAge(""); setType(""); setIncome(""); setResults(null); }}
+            >
+              <RotateCcw className="w-4 h-4" />
+              <span>আবার চেক করুন</span>
             </button>
 
-            <div className="disclaimer" role="note">
+            <div className="text-[10px] text-slate-400 text-center border-t border-slate-100 pt-4 mt-4" role="note">
               এই তথ্য সচেতনতার জন্য — চূড়ান্ত যোগ্যতা সরকারি নিয়ম অনুযায়ী নির্ধারিত হয়।
             </div>
           </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Lock } from "lucide-react";
 
 export default function AppHeader() {
   return (
@@ -13,12 +14,13 @@ export default function AppHeader() {
       <div style={{ flex: 1 }} />
       <Link
         href="/privacy"
-        className="btn btn--ghost btn--sm"
+        className="btn btn--ghost btn--sm flex items-center gap-1.5"
         id="header-privacy-link"
         aria-label="গোপনীয়তা নীতি দেখুন"
         style={{ fontSize: "var(--font-size-xs)", padding: "var(--space-2) var(--space-3)" }}
       >
-        🔒 গোপনীয়
+        <Lock className="w-3.5 h-3.5 text-primary" />
+        <span>গোপনীয়তা</span>
       </Link>
     </header>
   );

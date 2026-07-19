@@ -1,46 +1,46 @@
 /* ─── Bangladesh Financial Companion — Global Design System ─────────────────── */
 
-/* Import Noto Sans Bengali for Bangla text */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&family=Noto+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
 
 /* ─── Design Tokens ───────────────────────────────────────────────────────── */
 :root {
-  /* Brand colors — inspired by Bangladesh flag (green) + trust + warmth */
-  --color-primary:        #006A4E;   /* Bangladesh green */
-  --color-primary-light:  #00875F;
-  --color-primary-dark:   #004F3A;
-  --color-accent:         #F42A41;   /* Bangladesh red — used sparingly */
-  --color-accent-soft:    #FFE8EB;
+  /* Brand colors — updated to match Hishab-Nikash Teal + Gold */
+  --color-primary:        #0a5050;   /* Hishab-Nikash primary deep teal */
+  --color-primary-light:  #0e6d6d;
+  --color-primary-dark:   #063636;
+  --color-accent:         #d97706;   /* Hishab-Nikash secondary warm gold */
+  --color-accent-soft:    #fef3c7;
 
   /* Semantic */
-  --color-success:        #1A7A4A;
-  --color-warning:        #D97706;
-  --color-danger:         #DC2626;
-  --color-info:           #0369A1;
+  --color-success:        #16a34a;
+  --color-warning:        #d97706;
+  --color-danger:         #dc2626;
+  --color-info:           #2563eb;
 
   /* Cost bands */
-  --color-band-low:       #166534;
-  --color-band-medium:    #92400E;
-  --color-band-high:      #B91C1C;
-  --color-band-very-high: #7F1D1D;
-  --color-band-low-bg:    #DCFCE7;
-  --color-band-medium-bg: #FEF3C7;
-  --color-band-high-bg:   #FEE2E2;
-  --color-band-very-high-bg: #FEE2E2;
+  --color-band-low:       #16a34a;
+  --color-band-medium:    #ca8a04;
+  --color-band-high:      #dc2626;
+  --color-band-very-high: #991b1b;
+  --color-band-low-bg:    #f0fdf4;
+  --color-band-medium-bg: #fef9c3;
+  --color-band-high-bg:   #fef2f2;
+  --color-band-very-high-bg: #fef2f2;
 
-  /* Neutrals */
-  --color-bg:             #F7F9F8;
-  --color-surface:        #FFFFFF;
-  --color-surface-2:      #F0F5F3;
-  --color-border:         #D1E0DA;
-  --color-border-light:   #E8F0ED;
-  --color-text-primary:   #0D1F1A;
-  --color-text-secondary: #4A6B60;
-  --color-text-tertiary:  #7A9E94;
-  --color-text-inverse:   #FFFFFF;
+  /* Neutrals — matching Hishab-Nikash Warm White background */
+  --color-bg:             #f9f9f6;
+  --color-surface:        #ffffff;
+  --color-surface-2:      #f4f4f0;
+  --color-border:         #cbd5e1;
+  --color-border-light:   #e2e8f0;
+  --color-text-primary:   #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-tertiary:  #64748b;
+  --color-text-inverse:   #ffffff;
 
   /* Typography */
-  --font-body:     'Noto Sans Bengali', 'Noto Sans', system-ui, sans-serif;
+  --font-body:     'Hind Siliguri', 'Inter', system-ui, sans-serif;
   --font-size-xs:  0.75rem;   /* 12px */
   --font-size-sm:  0.875rem;  /* 14px */
   --font-size-md:  1rem;      /* 16px */
