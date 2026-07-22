@@ -25,15 +25,24 @@ import {
   X
 } from "lucide-react";
 
-const NAV_ITEMS = [
+type NavItem = {
+  href: string;
+  icon: any;
+  label: string;
+  id?: string;
+  external?: boolean;
+};
+
+const NAV_ITEMS: NavItem[] = [
   { href: "/",          icon: Home, label: "হোম",      id: "nav-home"     },
   { href: "/companion", icon: Bot, label: "সহায়ক",   id: "nav-companion"},
-  { href: "/cashbook",  icon: Notebook, label: "হিসাব",    id: "nav-cashbook" },
+  { href: "https://hishab-nikash-delta.vercel.app/", icon: Notebook, label: "হিসাব", id: "nav-cashbook", external: true },
   { href: "/protect",   icon: ShieldCheck, label: "সুরক্ষা",  id: "nav-protect"  },
 ];
 
 // All extra tools shown in the "More" bottom sheet
-const MORE_ITEMS = [
+const MORE_ITEMS: NavItem[] = [
+  { href: "https://hishab-nikash-delta.vercel.app/", icon: Notebook, label: "হিসাব নিকাশ", external: true },
   { href: "/check-loan",      icon: Banknote, label: "ঋণ যাচাইকারী"       },
   { href: "/compare",         icon: BarChart3, label: "ব্যাংক পণ্য তুলনা"        },
   { href: "/savings",         icon: Target, label: "সঞ্চয় পরিকল্পনা"  },
@@ -81,7 +90,22 @@ export default function BottomNav() {
             <div className="grid grid-cols-3 gap-3">
               {MORE_ITEMS.map(item => {
                 const IconComponent = item.icon;
-                const isActive = pathname === item.href;
+                const isActive = !item.external && pathname === item.href;
+
+                if (item.external) {
+                  return (
+                    <a
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setShowMore(false)}
+                      className="flex flex-col items-center gap-2 p-4 rounded-xl border text-decoration-none transition-all bg-slate-50 border-slate-100 text-slate-700 hover:bg-slate-100"
+                    >
+                      <IconComponent className="w-6 h-6 text-slate-500" />
+                      <span className="text-[10px] text-center font-semibold leading-normal">{item.label}</span>
+                    </a>
+                  );
+                }
+
                 return (
                   <Link
                     key={item.href}
@@ -106,8 +130,26 @@ export default function BottomNav() {
       {/* Bottom nav bar */}
       <nav className="bottom-nav" aria-label="প্রধান নেভিগেশন">
         {NAV_ITEMS.map((item) => {
-          const isActive = item.href === "/" ? pathname === "/" : pathname === item.href || pathname.startsWith(item.href + "/");
+          const isActive = !item.external && (item.href === "/" ? pathname === "/" : pathname === item.href || pathname.startsWith(item.href + "/"));
           const IconComponent = item.icon;
+
+          if (item.external) {
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                id={item.id}
+                className="nav-item"
+                aria-label={item.label}
+              >
+                <span className="nav-item__icon" aria-hidden="true">
+                  <IconComponent className="w-6 h-6" />
+                </span>
+                <span className="nav-item__label">{item.label}</span>
+              </a>
+            );
+          }
+
           return (
             <Link
               key={item.href}

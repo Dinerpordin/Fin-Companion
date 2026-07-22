@@ -8,7 +8,8 @@ export default function ServiceWorkerRegister() {
       navigator.serviceWorker
         .register("/sw.js")
         .then((reg) => {
-          console.log("[ServiceWorker] Registration successful with scope: ", reg.scope);
+          reg.update();
+          console.log("[ServiceWorker] Registered and updated:", reg.scope);
         })
         .catch((err) => {
           console.error("[ServiceWorker] Registration failed: ", err);
