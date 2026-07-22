@@ -12,6 +12,9 @@ type AudioAssistProps = {
   autoPlay?: boolean;
 };
 
+// Global in-memory cache for audio Object URLs across component renders
+const CLIENT_AUDIO_CACHE = new Map<string, string>();
+
 export default function AudioAssist({ text, size = "md", label, autoPlay = false }: AudioAssistProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -19,6 +22,11 @@ export default function AudioAssist({ text, size = "md", label, autoPlay = false
   const hasAutoPlayed = useRef(false);
 
   useEffect(() => {
+    // Pre-warm browser speech synthesis engine on mount to eliminate cold-start delay
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.getVoices();
+    }
+
     return () => {
       // Stop audio on unmount
       if (audioRef.current) {
@@ -32,12 +40,38 @@ export default function AudioAssist({ text, size = "md", label, autoPlay = false
   useEffect(() => {
     if (autoPlay && !hasAutoPlayed.current) {
       hasAutoPlayed.current = true;
-      // Small delay so the page is settled before speaking
-      const t = setTimeout(() => playBrowserSpeech(), 600);
+      const t = setTimeout(() => playBrowserSpeech(), 400);
       return () => clearTimeout(t);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [autoPlay]);
+
+  const playAudioUrl = async (url: string) => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+
+    const audio = new Audio(url);
+    audioRef.current = audio;
+
+    audio.onplay = () => {
+      setIsPlaying(true);
+      setIsLoading(false);
+    };
+
+    audio.onended = () => {
+      setIsPlaying(false);
+    };
+
+    audio.onerror = () => {
+      console.error("Audio playback error");
+      setIsPlaying(false);
+      setIsLoading(false);
+      playBrowserSpeech(); // Fallback on playback error
+    };
+
+    await audio.play();
+  };
 
   const handlePlay = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -53,49 +87,38 @@ export default function AudioAssist({ text, size = "md", label, autoPlay = false
       return;
     }
 
+    // 1. Instant Playback if audio is already cached in memory
+    const cachedUrl = CLIENT_AUDIO_CACHE.get(text);
+    if (cachedUrl) {
+      setIsLoading(false);
+      try {
+        await playAudioUrl(cachedUrl);
+        return;
+      } catch (err) {
+        console.warn("[AudioAssist] Cached audio playback failed, re-fetching:", err);
+      }
+    }
+
     setIsLoading(true);
     try {
-      const res = await fetch(`${API_BASE}/voice/synthesise`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text_bn: text }),
-      });
+      // Use GET request with encodeURIComponent to leverage browser HTTP cache
+      const res = await fetch(`${API_BASE}/voice/synthesise?text=${encodeURIComponent(text)}`);
 
       if (res.status === 501) {
-        // Fallback to browser Web Speech API
+        setIsLoading(false);
         playBrowserSpeech();
         return;
       }
 
-      if (!res.ok) throw new Error("TTS failed");
+      if (!res.ok) throw new Error(`TTS failed with status ${res.status}`);
 
       const blob = await res.blob();
       const audioUrl = URL.createObjectURL(blob);
-      
-      if (audioRef.current) {
-        audioRef.current.pause();
-      }
 
-      const audio = new Audio(audioUrl);
-      audioRef.current = audio;
+      // Store in client-side memory cache for zero latency on repeat clicks
+      CLIENT_AUDIO_CACHE.set(text, audioUrl);
 
-      audio.onplay = () => {
-        setIsPlaying(true);
-        setIsLoading(false);
-      };
-
-      audio.onended = () => {
-        setIsPlaying(false);
-      };
-
-      audio.onerror = () => {
-        console.error("Audio playback error");
-        setIsPlaying(false);
-        setIsLoading(false);
-        playBrowserSpeech(); // Fallback on playback error
-      };
-
-      await audio.play();
+      await playAudioUrl(audioUrl);
     } catch (err) {
       console.error("[AudioAssist] TTS endpoint failed, falling back:", err);
       setIsLoading(false);
@@ -105,20 +128,19 @@ export default function AudioAssist({ text, size = "md", label, autoPlay = false
 
   const playBrowserSpeech = () => {
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      // Cancel current playbacks
       window.speechSynthesis.cancel();
-      
+
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "bn-BD";
-      
+
       utterance.onstart = () => {
         setIsPlaying(true);
       };
-      
+
       utterance.onend = () => {
         setIsPlaying(false);
       };
-      
+
       utterance.onerror = () => {
         setIsPlaying(false);
       };
@@ -133,7 +155,6 @@ export default function AudioAssist({ text, size = "md", label, autoPlay = false
   const btnSize = size === "sm" ? "32px" : "40px";
   const iconSize = size === "sm" ? "14px" : "18px";
 
-  // If a label is provided, render as a pill with text; otherwise render as circular icon
   if (label) {
     return (
       <button

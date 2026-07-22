@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Lock } from "lucide-react";
+import { Lock, User } from "lucide-react";
 
 export default function AppHeader() {
   return (
@@ -12,16 +12,28 @@ export default function AppHeader() {
         </div>
       </Link>
       <div style={{ flex: 1 }} />
-      <Link
-        href="/privacy"
-        className="btn btn--ghost btn--sm flex items-center gap-1.5"
-        id="header-privacy-link"
-        aria-label="গোপনীয়তা নীতি দেখুন"
-        style={{ fontSize: "var(--font-size-xs)", padding: "var(--space-2) var(--space-3)" }}
-      >
-        <Lock className="w-3.5 h-3.5 text-primary" />
-        <span>গোপনীয়তা</span>
-      </Link>
+      <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+        <Link
+          href="/account"
+          className="btn btn--ghost btn--sm flex items-center gap-1.5"
+          id="header-account-link"
+          aria-label="একাউন্ট মডিউল"
+          style={{ fontSize: "var(--font-size-xs)", padding: "var(--space-2) var(--space-3)" }}
+        >
+          <User className="w-3.5 h-3.5 text-primary" />
+          <span>একাউন্ট</span>
+        </Link>
+        <Link
+          href="/privacy"
+          className="btn btn--ghost btn--sm flex items-center gap-1.5"
+          id="header-privacy-link"
+          aria-label="গোপনীয়তা নীতি দেখুন"
+          style={{ fontSize: "var(--font-size-xs)", padding: "var(--space-2) var(--space-3)" }}
+        >
+          <Lock className="w-3.5 h-3.5 text-primary" />
+          <span>গোপনীয়তা</span>
+        </Link>
+      </div>
     </header>
   );
 }

@@ -24,6 +24,9 @@ type Message = {
   nextActions?: { label_bn: string; target: string }[];
 };
 
+// Client-side cache for companion voice synthesis
+const COMPANION_TTS_CACHE = new Map<string, string>();
+
 export default function CompanionPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -33,6 +36,7 @@ export default function CompanionPage() {
   const [isRecording, setIsRecording] = useState(false);
   const [transcriptPreview, setTranscriptPreview] = useState("");
   const mediaRecorder = useRef<MediaRecorder | null>(null);
+  const recognitionRef = useRef<any>(null);
   const audioChunks = useRef<Blob[]>([]);
 
   const [sessionId] = useState(() => (typeof crypto !== 'undefined' && crypto.randomUUID) ? crypto.randomUUID() : Math.random().toString(36).substring(7));
@@ -58,18 +62,24 @@ export default function CompanionPage() {
 
   const playSynthesis = async (text: string) => {
     try {
-      const res = await fetch(`${API_BASE}/voice/synthesise`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text_bn: text }),
-      });
+      // 1. Instant Playback from client cache if available
+      const cachedUrl = COMPANION_TTS_CACHE.get(text);
+      if (cachedUrl) {
+        const audio = new Audio(cachedUrl);
+        audio.play();
+        return;
+      }
+
+      // 2. GET request with browser/CDN caching
+      const res = await fetch(`${API_BASE}/voice/synthesise?text=${encodeURIComponent(text)}`);
       if (res.ok) {
         const blob = await res.blob();
         const url = URL.createObjectURL(blob);
+        COMPANION_TTS_CACHE.set(text, url);
         const audio = new Audio(url);
         audio.play();
       } else {
-        // Fallback to browser native
+        // Fallback to browser native Web Speech API
         const utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = 'bn-BD';
         window.speechSynthesis.speak(utterance);
@@ -83,6 +93,49 @@ export default function CompanionPage() {
   };
 
   const startRecording = async () => {
+    // 1. Check for native browser SpeechRecognition for instant zero-latency STT
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    
+    if (SpeechRecognition) {
+      try {
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'bn-BD';
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognitionRef.current = recognition;
+
+        recognition.onresult = (event: any) => {
+          let currentTranscript = "";
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            currentTranscript += event.results[i][0].transcript;
+          }
+          if (currentTranscript) {
+            setTranscriptPreview(currentTranscript);
+          }
+        };
+
+        recognition.onerror = (event: any) => {
+          console.warn("[SpeechRecognition] Native recognition error, falling back to MediaRecorder:", event.error);
+          fallbackToMediaRecorder();
+        };
+
+        recognition.onend = () => {
+          setIsRecording(false);
+        };
+
+        recognition.start();
+        setIsRecording(true);
+        return;
+      } catch (err) {
+        console.warn("[SpeechRecognition] Initialization failed, falling back:", err);
+      }
+    }
+
+    // 2. Fallback to MediaRecorder + Gemini API
+    fallbackToMediaRecorder();
+  };
+
+  const fallbackToMediaRecorder = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorder.current = new MediaRecorder(stream, { mimeType: 'audio/webm' });
@@ -107,10 +160,16 @@ export default function CompanionPage() {
   };
 
   const stopRecording = () => {
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.stop();
+      } catch (e) {}
+      recognitionRef.current = null;
+    }
     if (mediaRecorder.current && mediaRecorder.current.state !== "inactive") {
       mediaRecorder.current.stop();
-      setIsRecording(false);
     }
+    setIsRecording(false);
   };
 
   const transcribeAudio = async (blob: Blob) => {
@@ -321,7 +380,7 @@ export default function CompanionPage() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Large floating mic button — always visible (Sprint D) */}
+      {/* Large floating mic button — always visible */}
       <button
         type="button"
         className={`mic-btn ${isRecording ? "recording" : ""}`}
