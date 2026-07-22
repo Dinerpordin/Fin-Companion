@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Lock, User } from "lucide-react";
+import { Lock, Notebook } from "lucide-react";
 
 export default function AppHeader() {
   return (
@@ -14,14 +14,14 @@ export default function AppHeader() {
       <div style={{ flex: 1 }} />
       <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
         <Link
-          href="/account"
+          href="/cashbook"
           className="btn btn--ghost btn--sm flex items-center gap-1.5"
-          id="header-account-link"
-          aria-label="একাউন্ট মডিউল"
+          id="header-cashbook-link"
+          aria-label="হিসাব ক্যাশবুক মডিউল"
           style={{ fontSize: "var(--font-size-xs)", padding: "var(--space-2) var(--space-3)" }}
         >
-          <User className="w-3.5 h-3.5 text-primary" />
-          <span>একাউন্ট</span>
+          <Notebook className="w-3.5 h-3.5 text-primary" />
+          <span>হিসাব</span>
         </Link>
         <Link
           href="/privacy"
