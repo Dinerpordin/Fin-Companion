@@ -4,14 +4,19 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/profile",
-        destination: "/cashbook",
-        permanent: true,
+        source: "/cashbook",
+        destination: "https://hishab-nikash-delta.vercel.app/",
+        permanent: false,
       },
       {
         source: "/account",
-        destination: "/cashbook",
-        permanent: true,
+        destination: "https://hishab-nikash-delta.vercel.app/",
+        permanent: false,
+      },
+      {
+        source: "/profile",
+        destination: "https://hishab-nikash-delta.vercel.app/",
+        permanent: false,
       },
     ];
   },

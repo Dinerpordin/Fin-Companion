@@ -1,17 +1,7 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Lock, Notebook } from "lucide-react";
 
 export default function AppHeader() {
-  const pathname = usePathname();
-
-  // Hide top header on Hishab Nikash module routes to prevent duplicate headers
-  if (pathname === "/cashbook" || pathname === "/account") {
-    return null;
-  }
-
   return (
     <header className="app-header" role="banner">
       <Link href="/" className="app-header__logo" aria-label="আর্থিক সহায়ক — হোম">
@@ -23,16 +13,16 @@ export default function AppHeader() {
       </Link>
       <div style={{ flex: 1 }} />
       <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
-        <Link
-          href="/cashbook"
+        <a
+          href="https://hishab-nikash-delta.vercel.app/"
           className="btn btn--ghost btn--sm flex items-center gap-1.5"
           id="header-cashbook-link"
-          aria-label="হিসাব ক্যাশবুক মডিউল"
+          aria-label="হিসাব নিকাশ অ্যাপ"
           style={{ fontSize: "var(--font-size-xs)", padding: "var(--space-2) var(--space-3)" }}
         >
           <Notebook className="w-3.5 h-3.5 text-primary" />
           <span>হিসাব</span>
-        </Link>
+        </a>
         <Link
           href="/privacy"
           className="btn btn--ghost btn--sm flex items-center gap-1.5"
