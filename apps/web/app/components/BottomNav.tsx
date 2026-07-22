@@ -28,12 +28,13 @@ import {
 const NAV_ITEMS = [
   { href: "/",          icon: Home, label: "হোম",      id: "nav-home"     },
   { href: "/companion", icon: Bot, label: "সহায়ক",   id: "nav-companion"},
-  { href: "/cashbook",  icon: Notebook, label: "হিসাব",    id: "nav-cashbook" },
+  { href: "/account",   icon: Notebook, label: "হিসাব",    id: "nav-account"  },
   { href: "/protect",   icon: ShieldCheck, label: "সুরক্ষা",  id: "nav-protect"  },
 ];
 
 // All extra tools shown in the "More" bottom sheet
 const MORE_ITEMS = [
+  { href: "/cashbook",        icon: Notebook, label: "ক্যাশ বুক"           },
   { href: "/check-loan",      icon: Banknote, label: "ঋণ যাচাইকারী"       },
   { href: "/compare",         icon: BarChart3, label: "ব্যাংক পণ্য তুলনা"        },
   { href: "/savings",         icon: Target, label: "সঞ্চয় পরিকল্পনা"  },
