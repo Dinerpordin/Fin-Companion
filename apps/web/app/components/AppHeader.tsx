@@ -1,7 +1,17 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Lock, Notebook } from "lucide-react";
 
 export default function AppHeader() {
+  const pathname = usePathname();
+
+  // Hide top header on Hishab Nikash module routes to prevent duplicate headers
+  if (pathname === "/cashbook" || pathname === "/account") {
+    return null;
+  }
+
   return (
     <header className="app-header" role="banner">
       <Link href="/" className="app-header__logo" aria-label="আর্থিক সহায়ক — হোম">

@@ -6,7 +6,7 @@ export default function CashbookPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   return (
-    <div style={{ width: "100%", height: "calc(100dvh - var(--header-height) - var(--nav-height))", position: "relative", overflow: "hidden" }}>
+    <div style={{ width: "100%", height: "calc(100dvh - var(--nav-height))", position: "relative", overflow: "hidden" }}>
       {isLoading && (
         <div style={{
           position: "absolute",
