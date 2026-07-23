@@ -5,12 +5,13 @@
 
 /* ─── Design Tokens ───────────────────────────────────────────────────────── */
 :root {
-  /* Brand colors — updated to match Hishab-Nikash Teal + Gold */
-  --color-primary:        #0a5050;   /* Hishab-Nikash primary deep teal */
-  --color-primary-light:  #0e6d6d;
-  --color-primary-dark:   #063636;
-  --color-accent:         #d97706;   /* Hishab-Nikash secondary warm gold */
-  --color-accent-soft:    #fef3c7;
+  /* Brand colors — updated to match uploaded mockup (Emerald / Forest Green + Soft Gray) */
+  --color-primary:        #064e3b;   /* Deep emerald green */
+  --color-primary-light:  #0d6e52;
+  --color-primary-dark:   #043d2e;
+  --color-header-bg:      #032b20;   /* Top dark slogan header */
+  --color-accent:         #10b981;   /* Emerald accent */
+  --color-accent-soft:    #ecfdf5;
 
   /* Semantic */
   --color-success:        #16a34a;
@@ -28,10 +29,10 @@
   --color-band-high-bg:   #fef2f2;
   --color-band-very-high-bg: #fef2f2;
 
-  /* Neutrals — matching Hishab-Nikash Warm White background */
-  --color-bg:             #f9f9f6;
+  /* Neutrals — Soft light gray background matching mockup */
+  --color-bg:             #f4f6f8;
   --color-surface:        #ffffff;
-  --color-surface-2:      #f4f4f0;
+  --color-surface-2:      #eef2f5;
   --color-border:         #cbd5e1;
   --color-border-light:   #e2e8f0;
   --color-text-primary:   #0f172a;
@@ -1108,3 +1109,472 @@ body {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* ─── Mockup Header Slogan Banner ────────────────────────────────────────── */
+.top-slogan-banner {
+  background: #032B20;
+  background-image: radial-gradient(circle at 90% 20%, rgba(16, 185, 129, 0.15) 0%, transparent 60%);
+  color: white;
+  padding: 1.25rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  position: relative;
+  overflow: hidden;
+}
+
+@media (min-width: 768px) {
+  .top-slogan-banner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.top-slogan-banner__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+}
+
+.top-slogan-banner__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.top-slogan-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 0.8125rem;
+  color: #e2e8f0;
+  white-space: nowrap;
+}
+
+.top-slogan-badge__check {
+  color: #34d399;
+  font-weight: bold;
+}
+
+/* ─── Header Navigation & Logo ───────────────────────────────────────────── */
+.desktop-nav {
+  display: none;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .desktop-nav {
+    display: flex;
+  }
+}
+
+.desktop-nav__link {
+  color: var(--color-text-primary);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.15s ease;
+}
+
+.desktop-nav__link:hover {
+  color: var(--color-primary);
+}
+
+.brand-login-btn {
+  background: #064e3b;
+  color: #ffffff !important;
+  padding: 0.4rem 1.25rem;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: background 0.15s ease;
+}
+
+.brand-login-btn:hover {
+  background: #043d2e;
+}
+
+/* ─── Hero Showcase & Phone Mockup ───────────────────────────────────────── */
+.hero-mockup-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.phone-mockup {
+  width: 240px;
+  background: #ffffff;
+  border: 4px solid #1e293b;
+  border-radius: 32px;
+  padding: 12px 10px;
+  box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.15), 0 10px 15px -5px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.phone-mockup__notch {
+  width: 60px;
+  height: 12px;
+  background: #1e293b;
+  border-radius: 0 0 8px 8px;
+  margin: -12px auto 8px auto;
+}
+
+.phone-mockup__screen {
+  background: #f8fafc;
+  border-radius: 20px;
+  padding: 12px 10px;
+}
+
+.phone-mockup__title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.phone-mockup__date {
+  font-size: 0.65rem;
+  color: #64748b;
+  margin-bottom: 8px;
+}
+
+.phone-mockup__amount-label {
+  font-size: 0.65rem;
+  color: #64748b;
+}
+
+.phone-mockup__amount {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 12px;
+}
+
+/* Donut Chart Component */
+.donut-chart-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.donut-chart-svg {
+  width: 72px;
+  height: 72px;
+  transform: rotate(-90deg);
+}
+
+.donut-chart-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.65rem;
+  color: #475569;
+}
+
+.donut-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 500;
+}
+
+.legend-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.hero-privacy-card {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ─── Trust Strip Below Hero ─────────────────────────────────────────────── */
+.trust-strip {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .trust-strip {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.trust-item__icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #f0fdf4;
+  color: #064e3b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.trust-item__text {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #1e293b;
+  line-height: 1.25;
+}
+
+/* ─── 3 Featured Tool Cards Grid ─────────────────────────────────────────── */
+.tools-3grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .tools-3grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.tool-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.tool-card:hover {
+  transform: translateY(-2px);
+  border-color: #064e3b;
+  box-shadow: 0 8px 16px rgba(6, 78, 59, 0.08);
+}
+
+.tool-card__icon-box {
+  width: 44px;
+  height: 44px;
+  background: #064e3b;
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.tool-card__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.tool-card__desc {
+  font-size: 0.8125rem;
+  color: #64748b;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.tool-card__action {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #064e3b;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ─── Dual Column Layout (Desktop) ───────────────────────────────────────── */
+.dual-section-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .dual-section-grid {
+    grid-template-columns: 1fr 1.2fr;
+  }
+}
+
+.support-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.support-card:hover {
+  border-color: #064e3b;
+  background: #f8fafc;
+}
+
+.support-card__left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.support-card__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #f0fdf4;
+  color: #064e3b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.support-card__title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.support-card__desc {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+/* More Services Grid */
+.more-services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .more-services-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.service-tile {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.15s ease;
+}
+
+.service-tile:hover {
+  border-color: #064e3b;
+  background: #f8fafc;
+  transform: translateY(-2px);
+}
+
+.service-tile__icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: #f0fdf4;
+  color: #064e3b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+}
+
+.service-tile__title {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.service-tile__desc {
+  font-size: 0.7rem;
+  color: #64748b;
+  line-height: 1.3;
+}
+
+/* ─── Dark Bottom Navigation Bar Theme ───────────────────────────────────── */
+.bottom-nav {
+  background: #042F24;
+  border-top: 1px solid #064e3b;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.bottom-nav .nav-item {
+  color: #94a3b8;
+}
+
+.bottom-nav .nav-item:hover,
+.bottom-nav .nav-item.active {
+  color: #34d399;
+}
+
+.bottom-nav .nav-item.active::before {
+  background: #34d399;
+}
+
+/* Bottom Footer Bar */
+.bottom-trust-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  font-size: 0.8125rem;
+  color: #475569;
+  margin-top: 2rem;
+}
+
+@media (min-width: 640px) {
+  .bottom-trust-footer {
+    flex-direction: row;
+  }
+}
+

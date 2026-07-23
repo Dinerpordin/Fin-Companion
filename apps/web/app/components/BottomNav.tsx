@@ -21,7 +21,10 @@ import {
   Scale, 
   AlertOctagon, 
   Send,
-  MoreHorizontal,
+  LayoutGrid,
+  Briefcase,
+  LifeBuoy,
+  User,
   X
 } from "lucide-react";
 
@@ -34,10 +37,11 @@ type NavItem = {
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { href: "/",          icon: Home, label: "হোম",      id: "nav-home"     },
-  { href: "/companion", icon: Bot, label: "সহায়ক",   id: "nav-companion"},
-  { href: "https://hishab-nikash-delta.vercel.app/", icon: Notebook, label: "হিসাব", id: "nav-cashbook", external: true },
-  { href: "/protect",   icon: ShieldCheck, label: "সুরক্ষা",  id: "nav-protect"  },
+  { href: "/",          icon: Home,       label: "হোম",      id: "nav-home"     },
+  { href: "#tools",     icon: LayoutGrid, label: "টুলস",     id: "nav-tools"    },
+  { href: "#services",  icon: Briefcase,  label: "সেবা",     id: "nav-services" },
+  { href: "#support",   icon: LifeBuoy,   label: "সহায়তা",   id: "nav-support"  },
+  { href: "/account",   icon: User,       label: "আমার",     id: "nav-account"  },
 ];
 
 // All extra tools shown in the "More" bottom sheet
@@ -166,20 +170,6 @@ export default function BottomNav() {
             </Link>
           );
         })}
-
-        {/* More button */}
-        <button
-          id="nav-more"
-          className="nav-item"
-          aria-label="আরও সেবা"
-          onClick={() => setShowMore(true)}
-          style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "var(--font-body)" }}
-        >
-          <span className="nav-item__icon" aria-hidden="true">
-            <MoreHorizontal className="w-6 h-6" />
-          </span>
-          <span className="nav-item__label">আরও</span>
-        </button>
       </nav>
     </>
   );
