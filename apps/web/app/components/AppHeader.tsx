@@ -42,9 +42,10 @@ export default function AppHeader() {
       {/* Desktop Navigation Links */}
       <nav className="desktop-nav" aria-label="প্রধান নেভিগেশন" style={{ marginRight: "1rem" }}>
         <Link href="/" className="desktop-nav__link">হোম</Link>
-        <a href="#tools" className="desktop-nav__link">টুলস</a>
-        <a href="#services" className="desktop-nav__link">সেবা</a>
-        <a href="#support" className="desktop-nav__link">সহায়তা</a>
+        <Link href="/#tools" className="desktop-nav__link">টুলস</Link>
+        <Link href="/economic-dashboard" className="desktop-nav__link">ড্যাশবোর্ড</Link>
+        <Link href="/#services" className="desktop-nav__link">সেবা</Link>
+        <Link href="/#support" className="desktop-nav__link">সহায়তা</Link>
         <Link href="/privacy" className="desktop-nav__link">সম্পর্কে</Link>
       </nav>
 
@@ -90,9 +91,10 @@ export default function AppHeader() {
           className="md:hidden fade-in"
         >
           <Link href="/" onClick={() => setMobileMenuOpen(false)} style={{ color: "#0f172a", textDecoration: "none", fontWeight: "600" }}>হোম</Link>
-          <a href="#tools" onClick={() => setMobileMenuOpen(false)} style={{ color: "#0f172a", textDecoration: "none", fontWeight: "600" }}>টুলস</a>
-          <a href="#services" onClick={() => setMobileMenuOpen(false)} style={{ color: "#0f172a", textDecoration: "none", fontWeight: "600" }}>সেবা</a>
-          <a href="#support" onClick={() => setMobileMenuOpen(false)} style={{ color: "#0f172a", textDecoration: "none", fontWeight: "600" }}>সহায়তা</a>
+          <Link href="/#tools" onClick={() => setMobileMenuOpen(false)} style={{ color: "#0f172a", textDecoration: "none", fontWeight: "600" }}>টুলস</Link>
+          <Link href="/economic-dashboard" onClick={() => setMobileMenuOpen(false)} style={{ color: "#0f172a", textDecoration: "none", fontWeight: "600" }}>ড্যাশবোর্ড</Link>
+          <Link href="/#services" onClick={() => setMobileMenuOpen(false)} style={{ color: "#0f172a", textDecoration: "none", fontWeight: "600" }}>সেবা</Link>
+          <Link href="/#support" onClick={() => setMobileMenuOpen(false)} style={{ color: "#0f172a", textDecoration: "none", fontWeight: "600" }}>সহায়তা</Link>
           <Link href="/privacy" onClick={() => setMobileMenuOpen(false)} style={{ color: "#0f172a", textDecoration: "none", fontWeight: "600" }}>সম্পর্কে</Link>
         </div>
       )}

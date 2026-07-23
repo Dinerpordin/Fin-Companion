@@ -38,9 +38,9 @@ type NavItem = {
 
 const NAV_ITEMS: NavItem[] = [
   { href: "/",          icon: Home,       label: "হোম",      id: "nav-home"     },
-  { href: "#tools",     icon: LayoutGrid, label: "টুলস",     id: "nav-tools"    },
-  { href: "#services",  icon: Briefcase,  label: "সেবা",     id: "nav-services" },
-  { href: "#support",   icon: LifeBuoy,   label: "সহায়তা",   id: "nav-support"  },
+  { href: "/#tools",    icon: LayoutGrid, label: "টুলস",     id: "nav-tools"    },
+  { href: "/#services", icon: Briefcase,  label: "সেবা",     id: "nav-services" },
+  { href: "/#support",  icon: LifeBuoy,   label: "সহায়তা",   id: "nav-support"  },
   { href: "/account",   icon: User,       label: "আমার",     id: "nav-account"  },
 ];
 
@@ -134,7 +134,13 @@ export default function BottomNav() {
       {/* Bottom nav bar */}
       <nav className="bottom-nav" aria-label="প্রধান নেভিগেশন">
         {NAV_ITEMS.map((item) => {
-          const isActive = !item.external && (item.href === "/" ? pathname === "/" : pathname === item.href || pathname.startsWith(item.href + "/"));
+          const isActive = !item.external && (
+            item.href === "/"
+              ? pathname === "/"
+              : item.href.startsWith("/#")
+                ? pathname === "/"
+                : pathname === item.href || pathname.startsWith(item.href + "/")
+          );
           const IconComponent = item.icon;
 
           if (item.external) {
