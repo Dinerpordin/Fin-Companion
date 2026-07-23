@@ -1,0 +1,54 @@
+[
+  {
+    "id": "macro-repo",
+    "title_bn": "বাংলাদেশ ব্যাংক পলিসি রেট (Repo Rate)",
+    "title_en": "Bangladesh Bank Policy (Repo) Rate",
+    "value": "8.50%",
+    "unit": "বার্ষিক %",
+    "trend": "up",
+    "change_bn": "+0.50% বৃদ্ধি",
+    "impact_bn": "পলিসি রেট বাড়ায় ব্যাংক সুদের হার বৃদ্ধি পাচ্ছে। ফলে নতুন ঋণে খরচ বাড়বে এবং সঞ্চয়ে (FDR/DPS) বেশি লাভ পাওয়া যাবে।",
+    "last_updated": "2026-07-15",
+    "source_name": "বাংলাদেশ ব্যাংক প্রেস রিলিজ",
+    "source_url": "https://www.bb.org.bd"
+  },
+  {
+    "id": "macro-smart",
+    "title_bn": "SMART রেফারেন্স রেট (৬ মাসের ট্রেজারি বিল)",
+    "title_en": "SMART Reference Lending Rate",
+    "value": "13.55%",
+    "unit": "বার্ষিক %",
+    "trend": "up",
+    "change_bn": "+0.25% সমন্বয়",
+    "impact_bn": "স্মার্ট রেট হল ব্যাংক ঋণের ভিত্তি। এই হার বাড়লে আপনার ব্যক্তিগত ও গৃহ ঋণের মাসিক কিস্তি বাড়তে পারে।",
+    "last_updated": "2026-07-01",
+    "source_name": "বাংলাদেশ ব্যাংক BRPD সার্কুলার",
+    "source_url": "https://www.bb.org.bd"
+  },
+  {
+    "id": "macro-inflation",
+    "title_bn": "জাতীয় মূল্যস্ফীতি (Inflation Rate)",
+    "title_en": "National CPI Inflation Rate",
+    "value": "9.72%",
+    "unit": "বাৎসরিক %",
+    "trend": "neutral",
+    "change_bn": "উচ্চ কিন্তু স্থিতিশীল",
+    "impact_bn": "মূল্যস্ফীতি ৯.৭২% থাকায় যেসব ব্যাংক ডিপিএস বা এফডিআর ৯.৫% এর নিচে মুনাফা দেয়, সেখানে সঞ্চয়ের প্রকৃত ক্রয়ক্ষমতা হ্রাস পায়।",
+    "last_updated": "2026-07-10",
+    "source_name": "বাংলাদেশ পরিসংখ্যান ব্যুরো (BBS)",
+    "source_url": "http://www.bbs.gov.bd"
+  },
+  {
+    "id": "macro-forex",
+    "title_bn": "অফিশিয়াল মার্কিন ডলার বিনিময় হার",
+    "title_en": "Official USD to BDT Rate",
+    "value": "৳ ১১৭.৫০",
+    "unit": "প্রতি ১ USD",
+    "trend": "up",
+    "change_bn": "সরকারি ২.৫% প্রণোদনা প্রযোজ্য",
+    "impact_bn": "বৈধ ব্যাংকিং চ্যানেলে প্রবাসী আয় (রেমিট্যান্স) পাঠালে প্রতি ১০০ টাকায় সরকার ২.৫০ টাকা অতিরিক্ত প্রণোদনা দিচ্ছে।",
+    "last_updated": "2026-07-22",
+    "source_name": "বাংলাদেশ ব্যাংক ফরেন এক্সচেঞ্জ ড্যাশবোর্ড",
+    "source_url": "https://www.bb.org.bd"
+  }
+]

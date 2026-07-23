@@ -8,6 +8,7 @@ import { API_BASE } from "../lib/apiUrl";
 const CATEGORIES = [
   { id: "fd",            label: "এফডিআর / স্থায়ী আমানত", icon: "🏦" },
   { id: "dps",           label: "ডিপিএস (DPS)",               icon: "📅" },
+  { id: "sanchayapatra", label: "সঞ্চয়পত্র স্কিম",        icon: "📜" },
   { id: "savings",       label: "সঞ্চয় হিসাব",       icon: "💰" },
   { id: "personal_loan", label: "ব্যক্তিগত লোন",     icon: "💳" },
   { id: "credit_card",   label: "ক্রেডিট কার্ড",     icon: "💳" },
